@@ -1,5 +1,6 @@
 {
 	"nodes":[
+		{"id":"b535a9c61f59ff97","x":-1915,"y":-279,"width":635,"height":179,"type":"group","label":"Freedom of wooden product and geometry application"},
 		{"id":"c203c3932c48f842","type":"group","x":-1080,"y":340,"width":844,"height":95,"label":"Computational Progress"},
 		{"id":"9674b76748bef7f5","type":"text","text":"Construction","x":160,"y":-236,"width":148,"height":60},
 		{"id":"99bf4e20c0302487","type":"text","text":"Modularity","x":-40,"y":80,"width":133,"height":54},
@@ -14,7 +15,34 @@
 		{"id":"28b25952ac52573f","type":"text","text":"Configuration","x":-287,"y":-20,"width":156,"height":50,"color":"1"},
 		{"id":"d704a66b53bfb52d","type":"text","text":"Joint Symmetry","x":-291,"y":47,"width":191,"height":60,"color":"1"},
 		{"id":"93c10eb4f4ad1c59","type":"text","text":"Burr tools","x":-291,"y":134,"width":133,"height":60,"color":"1"},
-		{"id":"3f49876a397111af","type":"text","text":"Materials => Timber | Plate","x":180,"y":20,"width":250,"height":60,"color":"1"}
+		{"id":"3f49876a397111af","type":"text","text":"Materials => Timber | Plate","x":180,"y":20,"width":250,"height":60,"color":"1"},
+		{"id":"0162572f98fead36","x":-1088,"y":520,"width":782,"height":545,"type":"file","file":"Screenshot 2025-04-16 at 10.17.50 pm.png"},
+		{"id":"b967420c695cae0b","x":-283,"y":520,"width":250,"height":60,"type":"text","text":"History of Timber Structure"},
+		{"id":"60b1ede3ebac14e8","x":-283,"y":600,"width":426,"height":126,"type":"text","text":"Light Component -> \nPros: Efficiency, Easy Construction, Lifting\nCons: Small Cross Section solving forces : add the number of components"},
+		{"id":"f8860ecf31cc991a","x":-283,"y":756,"width":502,"height":74,"type":"text","text":"Super position -> Large Cross section is achieved by placed two small cross sections on top of each other"},
+		{"id":"dd8c992ff89d57ca","x":-282,"y":860,"width":250,"height":60,"type":"text","text":"Horizontal -> Layering components "},
+		{"id":"3411d86545e3d6f9","x":-282,"y":940,"width":250,"height":60,"type":"text","text":"Vertical -> Truss"},
+		{"id":"f5d1b743c3c32681","x":20,"y":894,"width":317,"height":52,"type":"text","text":"Now Reduce local bending moment"},
+		{"id":"2081ceacbfc367f7","x":-283,"y":1035,"width":250,"height":60,"type":"text","text":"Superimposition"},
+		{"id":"b04180782677d0c5","x":-1097,"y":1180,"width":791,"height":506,"type":"file","file":"Screenshot 2025-04-16 at 10.30.01 pm.png"},
+		{"id":"a27c7165e3325cc2","x":-282,"y":1240,"width":382,"height":160,"type":"text","text":"Hybrid, complex superimpositions of static systems or models is disappear from the repertoire"},
+		{"id":"b7a66488249a8157","x":-1097,"y":1780,"width":789,"height":460,"type":"file","file":"Pasted image 20250416224409.png"},
+		{"id":"bf98523f4fac12b0","x":-220,"y":1830,"width":738,"height":360,"type":"file","file":"Pasted image 20250416224458.png"},
+		{"id":"06b26668e7c30ea5","x":-655,"y":2360,"width":698,"height":68,"type":"text","text":"Easy Assembly and Transport, efficient structure by geometry property"},
+		{"id":"53fc37c56174be8b","x":-341,"y":1705,"width":250,"height":60,"type":"text","text":"Reciprocal structure![[Pasted image 20250416224850.png]]"},
+		{"id":"849d37a81e03ca6d","x":680,"y":-350,"width":729,"height":738,"type":"file","file":"Pasted image 20250416224852.png"},
+		{"id":"28ed96d3045a365c","x":680,"y":423,"width":759,"height":370,"type":"file","file":"Pasted image 20250416225029.png"},
+		{"id":"984daca1a1800fdb","x":-790,"y":-182,"width":421,"height":50,"type":"text","text":"Iteration process -> L System and Fractal "},
+		{"id":"70aa4e5a20c09e19","x":-1895,"y":-259,"width":595,"height":60,"type":"text","text":"Smooth Fiber -> Curve and Soft Structure, complex interwoven structure"},
+		{"id":"7d47c7acd1d5a99a","x":-1895,"y":-170,"width":532,"height":50,"type":"text","text":"Polywood -> Strong Structurability"},
+		{"id":"d5720bc1272a4e34","x":-1580,"y":0,"width":250,"height":60,"type":"text","text":"Industrial application??"},
+		{"id":"510d2b174b727031","x":-1920,"y":0,"width":250,"height":60,"type":"text","text":"IMA technology"},
+		{"id":"6974a4a5f0eea2eb","x":-1946,"y":120,"width":302,"height":60,"type":"text","text":"Building -> Environmental Friendly"},
+		{"id":"dd6e050e76db264f","x":-2196,"y":220,"width":250,"height":60,"type":"text","text":"Examples of timber struction"},
+		{"id":"c10a745bb6525458","x":-1895,"y":298,"width":352,"height":64,"type":"text","text":"Benefit of wood and timber structure"},
+		{"id":"4946fbc936a5a359","x":-1895,"y":383,"width":250,"height":60,"type":"text","text":"Wood-Wood connection"},
+		{"id":"769e424f02dafba0","x":-1613,"y":383,"width":250,"height":60,"type":"text","text":"Flexible quality"},
+		{"id":"c932ab62ab14d75c","x":-1613,"y":130,"width":105,"height":50,"type":"text","text":"Cost?"}
 	],
 	"edges":[
 		{"id":"4bc0977fed87552f","fromNode":"9dbbfd9a530a55a5","fromSide":"bottom","toNode":"99bf4e20c0302487","toSide":"top","fromEnd":"arrow"},
@@ -25,6 +53,11 @@
 		{"id":"b15ff918bb7f9980","fromNode":"28b25952ac52573f","fromSide":"left","toNode":"6b44261fbfcdc0f7","toSide":"right"},
 		{"id":"361d38c819e2ef78","fromNode":"ea501d5f1d3b3967","fromSide":"right","toNode":"e592e50e6024182a","toSide":"left"},
 		{"id":"9feeec5d37b20ee6","fromNode":"e592e50e6024182a","fromSide":"right","toNode":"a6fd5535d8aa27ac","toSide":"left"},
-		{"id":"424859beb6ff7c54","fromNode":"a6fd5535d8aa27ac","fromSide":"right","toNode":"99bf4e20c0302487","toSide":"bottom","label":"Form-finding include constructive concept, and structural aspect"}
+		{"id":"424859beb6ff7c54","fromNode":"a6fd5535d8aa27ac","fromSide":"right","toNode":"99bf4e20c0302487","toSide":"bottom","label":"Form-finding include constructive concept, and structural aspect"},
+		{"id":"11c6b763b2111cd0","fromNode":"b7a66488249a8157","fromSide":"bottom","toNode":"06b26668e7c30ea5","toSide":"top"},
+		{"id":"e51c378eebb936a4","fromNode":"bf98523f4fac12b0","fromSide":"bottom","toNode":"06b26668e7c30ea5","toSide":"top"},
+		{"id":"a4606503c5ba389b","fromNode":"510d2b174b727031","fromSide":"right","toNode":"d5720bc1272a4e34","toSide":"left"},
+		{"id":"ba7b4212caeec2c0","fromNode":"dd6e050e76db264f","fromSide":"right","toNode":"6974a4a5f0eea2eb","toSide":"bottom","label":"Proof"},
+		{"id":"eba89cb1f1e9c527","fromNode":"769e424f02dafba0","fromSide":"left","toNode":"4946fbc936a5a359","toSide":"right"}
 	]
 }

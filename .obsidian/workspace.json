@@ -13,15 +13,15 @@
             "state": {
               "type": "canvas",
               "state": {
-                "file": "SLBlockResearch/Theory/SLBlock Diagram.canvas",
+                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
                 "viewState": {
-                  "x": 0,
-                  "y": 0,
-                  "zoom": 0
+                  "x": -1557.1912362869462,
+                  "y": 211.081548946182,
+                  "zoom": -0.6237216388668596
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "SLBlock Diagram"
+              "title": "BOIS Concept"
             }
           }
         ]
@@ -81,7 +81,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "900fce6e72045cfc",
@@ -145,13 +146,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "SLBlockResearch/Theory/SLBlock Diagram.canvas",
+                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of SLBlock Diagram"
+              "title": "Outline of BOIS Concept"
             }
           }
         ],
@@ -159,7 +160,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -174,6 +176,15 @@
   },
   "active": "9c65c6ae5f15fc44",
   "lastOpenFiles": [
+    "Pasted image 20250416225723.png",
+    "Pasted image 20250416225029.png",
+    "Pasted image 20250416224852.png",
+    "Pasted image 20250416224850.png",
+    "Pasted image 20250416224458.png",
+    "Pasted image 20250416224409.png",
+    "Screenshot 2025-04-16 at 10.30.01 pm.png",
+    "Screenshot 2025-04-16 at 10.17.50 pm.png",
+    "SLBlockResearch/Theory/SLBlock Diagram.canvas",
     "SLBlockResearch/Program/VScode/BlockInformation/SLBlock.cs",
     "SLBlockResearch/Program/VScode/BlockInformation/Voxel.cs",
     "SLBlockResearch/Program/VScode/BlockInformation",
@@ -184,9 +195,7 @@
     "SLBlockResearch/Program/VScode/bin/Debug/net7.0-windows/VScode.runtimeconfig.json",
     "SLBlockResearch/Program/VScode/obj/Debug/net7.0/VScode.csproj.FileListAbsolute.txt",
     "SLBlockResearch/Program/VScode/bin/Debug/net7.0/VScode.pdb",
-    "SLBlockResearch/Program/VScode/obj/Debug/net7.0/ref/VScode.dll",
     "SLBlockResearch/Theory/Untitled.md",
-    "SLBlockResearch/Theory/SLBlock Diagram.canvas",
     "TimberPlate/Lecture01/BOIS Concept.canvas",
     "TimberPlate/Lecture01/Note.md",
     "Concept Network.md",
