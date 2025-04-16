@@ -1,0 +1,30 @@
+{
+	"nodes":[
+		{"id":"c203c3932c48f842","type":"group","x":-1080,"y":340,"width":844,"height":95,"label":"Computational Progress"},
+		{"id":"9674b76748bef7f5","type":"text","text":"Construction","x":160,"y":-236,"width":148,"height":60},
+		{"id":"99bf4e20c0302487","type":"text","text":"Modularity","x":-40,"y":80,"width":133,"height":54},
+		{"id":"958b6017ddb337ca","type":"text","text":"Degree of freedom","x":-75,"y":-340,"width":203,"height":80,"color":"1"},
+		{"id":"fb0f569f942e374d","type":"text","text":"Structurability","x":180,"y":-45,"width":171,"height":50,"color":"1"},
+		{"id":"6b44261fbfcdc0f7","type":"text","text":"Comes into early stage of architectural design","x":-962,"y":194,"width":250,"height":60},
+		{"id":"ea501d5f1d3b3967","type":"text","text":"Heuristic approach","x":-1060,"y":362,"width":205,"height":51},
+		{"id":"e592e50e6024182a","type":"text","text":"Life cycle assessment","x":-775,"y":360,"width":215,"height":55},
+		{"id":"a6fd5535d8aa27ac","type":"text","text":"Circularity","x":-495,"y":363,"width":239,"height":50},
+		{"id":"c0a5c2a08b3d2a79","type":"text","text":"Computer Aided Design -> AI Aided Design ?","x":-750,"y":274,"width":381,"height":50,"color":"4"},
+		{"id":"9dbbfd9a530a55a5","type":"text","text":"Grammar","x":-260,"y":-236,"width":129,"height":63},
+		{"id":"28b25952ac52573f","type":"text","text":"Configuration","x":-287,"y":-20,"width":156,"height":50,"color":"1"},
+		{"id":"d704a66b53bfb52d","type":"text","text":"Joint Symmetry","x":-291,"y":47,"width":191,"height":60,"color":"1"},
+		{"id":"93c10eb4f4ad1c59","type":"text","text":"Burr tools","x":-291,"y":134,"width":133,"height":60,"color":"1"},
+		{"id":"3f49876a397111af","type":"text","text":"Materials => Timber | Plate","x":180,"y":20,"width":250,"height":60,"color":"1"}
+	],
+	"edges":[
+		{"id":"4bc0977fed87552f","fromNode":"9dbbfd9a530a55a5","fromSide":"bottom","toNode":"99bf4e20c0302487","toSide":"top","fromEnd":"arrow"},
+		{"id":"e5f575ee81c794b0","fromNode":"99bf4e20c0302487","fromSide":"top","toNode":"9674b76748bef7f5","toSide":"bottom","fromEnd":"arrow"},
+		{"id":"e480449e6bf40a53","fromNode":"9674b76748bef7f5","fromSide":"left","toNode":"9dbbfd9a530a55a5","toSide":"right","fromEnd":"arrow"},
+		{"id":"03b8734473e33253","fromNode":"d704a66b53bfb52d","fromSide":"left","toNode":"6b44261fbfcdc0f7","toSide":"right"},
+		{"id":"4ec0fc56253cb471","fromNode":"93c10eb4f4ad1c59","fromSide":"left","toNode":"6b44261fbfcdc0f7","toSide":"right"},
+		{"id":"b15ff918bb7f9980","fromNode":"28b25952ac52573f","fromSide":"left","toNode":"6b44261fbfcdc0f7","toSide":"right"},
+		{"id":"361d38c819e2ef78","fromNode":"ea501d5f1d3b3967","fromSide":"right","toNode":"e592e50e6024182a","toSide":"left"},
+		{"id":"9feeec5d37b20ee6","fromNode":"e592e50e6024182a","fromSide":"right","toNode":"a6fd5535d8aa27ac","toSide":"left"},
+		{"id":"424859beb6ff7c54","fromNode":"a6fd5535d8aa27ac","fromSide":"right","toNode":"99bf4e20c0302487","toSide":"bottom","label":"Form-finding include constructive concept, and structural aspect"}
+	]
+}
