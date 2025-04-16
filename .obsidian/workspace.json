@@ -4,24 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "5efecbfe47b6fa98",
+        "id": "e327aab092bed344",
         "type": "tabs",
         "children": [
           {
-            "id": "47ede6da155b1068",
+            "id": "9c65c6ae5f15fc44",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
-                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
+                "file": "SLBlockResearch/Theory/SLBlock Diagram.canvas",
                 "viewState": {
-                  "x": -294.5159251846968,
-                  "y": 146.24697662835666,
-                  "zoom": -0.6569643856175246
+                  "x": 0,
+                  "y": 0,
+                  "zoom": 0
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "BOIS Concept"
+              "title": "SLBlock Diagram"
             }
           }
         ]
@@ -97,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
+                "file": "SLBlockResearch/Theory/SLBlock Diagram.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -107,7 +107,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for BOIS Concept"
+              "title": "Backlinks for SLBlock Diagram"
             }
           },
           {
@@ -116,12 +116,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
+                "file": "SLBlockResearch/Theory/SLBlock Diagram.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from BOIS Concept"
+              "title": "Outgoing links from SLBlock Diagram"
             }
           },
           {
@@ -145,13 +145,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
+                "file": "SLBlockResearch/Theory/SLBlock Diagram.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of BOIS Concept"
+              "title": "Outline of SLBlock Diagram"
             }
           }
         ],
@@ -172,8 +172,11 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "47ede6da155b1068",
+  "active": "85e7e1f927296593",
   "lastOpenFiles": [
+    "SLBlockResearch/Theory/Untitled.md",
+    "SLBlockResearch/Theory/SLBlock Diagram.canvas",
+    "TimberPlate/Lecture01/BOIS Concept.canvas",
     "SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.AssemblyInfo.cs",
     "SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.AssemblyInfoInputs.cache",
     "SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.GeneratedMSBuildEditorConfig.editorconfig",
@@ -184,9 +187,7 @@
     "SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.assets.cache",
     "SLBlockResearch/Program/VScode/obj/Debug/net48",
     "SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.AssemblyInfo.cs",
-    "SLBlockResearch/Program/VScode/obj/Debug/net7.0/VScode.GeneratedMSBuildEditorConfig.editorconfig",
     "TimberPlate/Lecture01/Note.md",
-    "TimberPlate/Lecture01/BOIS Concept.canvas",
     "Concept Network.md",
     "Untitled.md",
     "Welcome.md"
