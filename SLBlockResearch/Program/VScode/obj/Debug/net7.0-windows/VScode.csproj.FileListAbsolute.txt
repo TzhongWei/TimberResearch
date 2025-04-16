@@ -1,0 +1,15 @@
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/bin/Debug/net7.0-windows/VScode.deps.json
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/bin/Debug/net7.0-windows/VScode.runtimeconfig.json
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/bin/Debug/net7.0-windows/VScode.dll
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/bin/Debug/net7.0-windows/VScode.pdb
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.csproj.AssemblyReference.cache
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.GeneratedMSBuildEditorConfig.editorconfig
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.AssemblyInfoInputs.cache
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.AssemblyInfo.cs
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.csproj.CoreCompileInputs.cache
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.sourcelink.json
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.dll
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/refint/VScode.dll
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.pdb
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.genruntimeconfig.cache
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/ref/VScode.dll

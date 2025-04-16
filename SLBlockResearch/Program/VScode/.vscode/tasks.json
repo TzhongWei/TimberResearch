@@ -8,7 +8,7 @@
       "args": [
         "build",
         "-clp:NoSummary",
-        "${workspaceFolder}/VScode.csproj"
+        "${workspaceFolder}/VScode.sln"
       ],
       "problemMatcher": "$msCompile",
       "presentation": {

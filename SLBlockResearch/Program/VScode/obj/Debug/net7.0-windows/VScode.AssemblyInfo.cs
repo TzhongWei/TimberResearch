@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Description of VScode")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+da5084578a938318f06c3f2efb32c85553d4cd69")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+70fe07b39adbde9be564312e747e2d36cfd00d70")]
 [assembly: System.Reflection.AssemblyProductAttribute("VScode")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VScode")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

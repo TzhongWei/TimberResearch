@@ -1,0 +1,10 @@
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/bin/Debug/net48/VScode.dll
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/bin/Debug/net48/VScode.pdb
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.csproj.AssemblyReference.cache
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.GeneratedMSBuildEditorConfig.editorconfig
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.AssemblyInfoInputs.cache
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.AssemblyInfo.cs
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.csproj.CoreCompileInputs.cache
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.sourcelink.json
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.dll
+/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/obj/Debug/net48/VScode.pdb
