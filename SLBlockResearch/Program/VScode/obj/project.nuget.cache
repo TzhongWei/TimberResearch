@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "/cI0O2LSDtI=",
+  "success": true,
+  "projectFilePath": "/Volumes/File/IBOIS/Courses/TimberResearch/SLBlockResearch/Program/VScode/VScode.csproj",
+  "expectedPackageFiles": [
+    "/Users/tsungweicheng/.nuget/packages/grasshopper/8.0.23304.9001/grasshopper.8.0.23304.9001.nupkg.sha512",
+    "/Users/tsungweicheng/.nuget/packages/microsoft.netframework.referenceassemblies/1.0.3/microsoft.netframework.referenceassemblies.1.0.3.nupkg.sha512",
+    "/Users/tsungweicheng/.nuget/packages/microsoft.netframework.referenceassemblies.net48/1.0.3/microsoft.netframework.referenceassemblies.net48.1.0.3.nupkg.sha512",
+    "/Users/tsungweicheng/.nuget/packages/microsoft.win32.systemevents/7.0.0/microsoft.win32.systemevents.7.0.0.nupkg.sha512",
+    "/Users/tsungweicheng/.nuget/packages/rhinocommon/8.0.23304.9001/rhinocommon.8.0.23304.9001.nupkg.sha512",
+    "/Users/tsungweicheng/.nuget/packages/system.drawing.common/7.0.0/system.drawing.common.7.0.0.nupkg.sha512",
+    "/Users/tsungweicheng/.nuget/packages/microsoft.windowsdesktop.app.ref/7.0.20/microsoft.windowsdesktop.app.ref.7.0.20.nupkg.sha512",
+    "/Users/tsungweicheng/.nuget/packages/microsoft.windowsdesktop.app.ref/7.0.20/microsoft.windowsdesktop.app.ref.7.0.20.nupkg.sha512"
+  ],
+  "logs": []
+}
