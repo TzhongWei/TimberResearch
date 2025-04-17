@@ -21,11 +21,11 @@ namespace Block
           ///<summary>
         /// Gets or sets the transformation matrix applied to the SLBlock.
         ///</summary>
-        public Transform XForm { get; set; }
+        public Transform XForm { get; private set; }
         ///<summary>
         /// The size dimension of each voxel within the SLBlock.
         ///</summary>
-        public double Size { get; set;}
+        public double Size { get;}
         ///<summary>
         /// The transformation for the voxel blocks
         ///</summary>
@@ -95,14 +95,13 @@ namespace Block
             Translation = Translation.Select(x => Rhino.Geometry.Transform.Rotation(Math.PI, Vector3d.YAxis, Point3d.Origin) * x).ToList();
             _transforms.AddRange(Translation);
         }
-
-        public SLBlockPair DuplicateSLBlockPair()
+        public IBlockBase DuplicateBlock()
         {
             var NewSL = new SLBlockPair(this.Size);
             NewSL.XForm = this.XForm;
             return NewSL;
         }
-        public List<SLBlock> DuplicateSLBlocks()
+        public List<SLBlock> DuplicateSLBlocks(PairOption option = PairOption.Chain)
         {
             var NewSLTop = new SLBlock(this.Size);
             var NewSLBot = new SLBlock(this.Size);
@@ -111,7 +110,18 @@ namespace Block
             var Reverse = new Rhino.Geometry.Transform(XForm);
             Reverse = Reverse * Rhino.Geometry.Transform.Rotation(Math.PI, Vector3d.YAxis, Point3d.Origin);
             NewSLBot.Transform(Reverse);
-            return new List<SLBlock>(){NewSLTop, NewSLBot};
+
+            switch (option)
+            {
+                case PairOption.Chain:
+                return new List<SLBlock>{NewSLTop, NewSLBot};
+                case PairOption.Top:
+                return new List<SLBlock>{NewSLTop};
+                case PairOption.Bottom:
+                return new List<SLBlock>{NewSLBot};
+                default:
+                return new List<SLBlock>{NewSLTop, NewSLBot};
+            }
         }
         private List<Transform> GetTransforms(PairOption option = PairOption.Chain)
         {
@@ -132,7 +142,7 @@ namespace Block
             var Voxel = new Voxel(Size);
             var Boxes = GetTransforms(options).Select(t =>
                     {
-                        var V = Voxel.DuplicateVoxel();
+                        var V = (Voxel) Voxel.DuplicateBlock();
                         V.Transform(XForm);
                         V.Transform(t);
                         return V.VoxelDisplay();
@@ -168,17 +178,14 @@ namespace Block
             }
         }
         #endregion GetGeometry
-
         public override string ToString()
         {
             var Location = Point3d.Origin;
             Location.Transform(this.XForm);
             return $"SLBlockPair \n Location : {Location.ToString()}, Size : {Size}";
         }
-
         public override string TypeName => "SLBlockPair";
         public override string TypeDescription => "A pair of SLBlocks with optional bottom/top/chain configuration.";
-
         public override BoundingBox Boundingbox
         {
             get
@@ -205,15 +212,13 @@ namespace Block
         }
         public override IGH_GeometricGoo DuplicateGeometry()
         {
-            return this.DuplicateSLBlockPair();
+            return (SLBlockPair) this.DuplicateBlock();
         }
-
         public override IGH_GeometricGoo Transform(Transform xform)
         {
             this.XForm *= xform;
             return this;
         }
-
         public override IGH_GeometricGoo Morph(SpaceMorph xmorph)
         {
             var points = this.GetSLBlockGraphNode().Select(p => xmorph.MorphPoint(p)).ToList();
@@ -221,7 +226,6 @@ namespace Block
             copy._transforms = points.Select(p => Rhino.Geometry.Transform.Translation(new Vector3d(p))).ToList();
             return copy;
         }
-
         public override bool CastFrom(object source)
         {
             if (source == null) return false;
@@ -250,7 +254,6 @@ namespace Block
 
             return false;
         }
-
         public void DrawViewportWires(GH_PreviewWireArgs args)
         {
             foreach (var Pt in this.GetSLBlockGraphNode())
@@ -268,7 +271,6 @@ namespace Block
                 args.Pipeline.DrawCurve(Crv, args.Color, 4);
             }
         }
-
         public void DrawViewportMeshes(GH_PreviewMeshArgs args)
         {
             foreach (var b in this.GetSLBLock(PairOption.Top))

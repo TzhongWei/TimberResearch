@@ -9,9 +9,9 @@ namespace Block
     public class Voxel:IBlockBase
     {
         //Property
-        public Transform XForm {get; set;}
-        public double Size {get;set;}
-
+        public Transform XForm {get; private set;}
+        public double Size {get;}
+        
         //Function
         public Box VoxelDisplay() 
         {
@@ -38,7 +38,7 @@ namespace Block
         {   
             this.XForm *= T;
         }
-        public Voxel DuplicateVoxel() => new Voxel(this);
+        public IBlockBase DuplicateBlock() => new Voxel(this);
         public override bool Equals(object obj)
         {
             if(obj is Voxel V)

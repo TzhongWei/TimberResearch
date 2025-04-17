@@ -18,19 +18,19 @@ namespace Block
     ///<summary>
     /// Represents an SLBlock, a custom geometric object composed of transformed voxel blocks, supporting Grasshopper previews.
     ///</summary>
-    public class SLBlock : GH_GeometricGoo<Point3d>, IGH_PreviewDatam IBlockBase
+    public class SLBlock : GH_GeometricGoo<Point3d>, IGH_PreviewData, IBlockBase
     {
 
         #region Property
         ///<summary>
         /// Gets or sets the transformation matrix applied to the SLBlock.
         ///</summary>
-        public Transform XForm { get; set; }
+        public Transform XForm { get; private set; }
 
         ///<summary>
         /// The size dimension of each voxel within the SLBlock.
         ///</summary>
-        public double Size { get; set;}
+        public double Size { get;}
         ///<summary>
         /// The transformation for the voxel blocks
         ///</summary>
@@ -79,13 +79,12 @@ namespace Block
             this.XForm = Rhino.Geometry.Transform.Identity;
             _transforms.AddRange(VoxelLoc.Select(x => Rhino.Geometry.Transform.Translation(x)));
         }
-        public SLBlock DuplicateSLBlock()
+        public IBlockBase DuplicateBlock()
         {
             var NewSL = new SLBlock(this.Size);
             NewSL.XForm = this.XForm;
             return NewSL;
         }
-
 
         #region GetGeometry
         public List<Box> GetSLBlock()
@@ -93,7 +92,7 @@ namespace Block
             var Voxel = new Voxel(Size);
             var Boxes = this._transforms.Select(t =>
             {
-                var V = Voxel.DuplicateVoxel();
+                var V = (Voxel) Voxel.DuplicateBlock();
                 V.Transform(XForm);
                 V.Transform(t);
                 return V.VoxelDisplay();
@@ -131,7 +130,7 @@ namespace Block
         public override string TypeName => "SLBlock";
         public override IGH_GeometricGoo DuplicateGeometry()
         {
-            return this.DuplicateSLBlock();
+            return (SLBlock) this.DuplicateBlock();
         }
         public override BoundingBox Boundingbox
         {
@@ -147,7 +146,6 @@ namespace Block
 
         public BoundingBox ClippingBox => this.Boundingbox;
         public override string TypeDescription => this.ToString();
-
         public override BoundingBox GetBoundingBox(Transform xform)
         {
             var boxes = this.GetSLBlock();
@@ -215,7 +213,6 @@ namespace Block
                 args.Pipeline.DrawCurve(Crv, args.Color, 4);
             }
         }
-
         public void DrawViewportMeshes(GH_PreviewMeshArgs args)
         {
             foreach (var b in this.GetSLBlock())
