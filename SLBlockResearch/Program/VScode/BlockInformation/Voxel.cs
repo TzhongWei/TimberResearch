@@ -6,11 +6,11 @@ using Rhino.Geometry;
 
 namespace Block
 {
-    public class Voxel
+    public class Voxel:IBlockBase
     {
         //Property
-        public Transform Xform;
-        public double Size;
+        public Transform XForm {get; set;}
+        public double Size {get;set;}
 
         //Function
         public Box VoxelDisplay() 
@@ -21,29 +21,29 @@ namespace Block
             new Interval(-Size/2, Size/2),
             new Interval(-Size/2, Size/2)
             );
-            B.Transform (Xform);
+            B.Transform (XForm);
             return B;
         }
         public Voxel(double Size)
         {
             this.Size = Size;
-            this.Xform = Rhino.Geometry.Transform.Identity ;
+            this.XForm = Rhino.Geometry.Transform.Identity ;
         }
         public Voxel(Voxel V) 
         {
             this.Size = V.Size;
-            this.Xform = V.Xform;
+            this.XForm = V.XForm;
         }
         public void Transform(Transform T)
         {   
-            this.Xform = T;
+            this.XForm *= T;
         }
         public Voxel DuplicateVoxel() => new Voxel(this);
         public override bool Equals(object obj)
         {
             if(obj is Voxel V)
             {
-                return this.Xform.Equals(V.Xform) && this.Size == V.Size;
+                return this.XForm.Equals(V.XForm) && this.Size == V.Size;
             }
             else return false;
         }

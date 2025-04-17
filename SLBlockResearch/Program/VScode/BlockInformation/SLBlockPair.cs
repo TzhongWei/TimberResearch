@@ -1,32 +1,27 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Eto.Forms;
 using Rhino.Geometry;
-using Grasshopper;
+using Rhino.UI.Controls;
 using Grasshopper.Kernel;
 using System.Drawing;
 using Grasshopper.Kernel.Types;
-using GH_IO;
-using GH_IO.Serialization;
-using System.Diagnostics.Tracing;
-using Rhino.Render.Fields;
 
 namespace Block
 {
-    ///<summary>
-    /// Represents an SLBlock, a custom geometric object composed of transformed voxel blocks, supporting Grasshopper previews.
-    ///</summary>
-    public class SLBlock : GH_GeometricGoo<Point3d>, IGH_PreviewDatam IBlockBase
+    public enum PairOption
     {
-
+        Top,
+        Bottom,
+        Chain
+    }
+    public class SLBlockPair : GH_GeometricGoo<Point3d>, IGH_PreviewData, IBlockBase
+    {
         #region Property
-        ///<summary>
+          ///<summary>
         /// Gets or sets the transformation matrix applied to the SLBlock.
         ///</summary>
         public Transform XForm { get; set; }
-
         ///<summary>
         /// The size dimension of each voxel within the SLBlock.
         ///</summary>
@@ -36,7 +31,6 @@ namespace Block
         ///</summary>
         ///<param name="_transforms">transformation forms the SL block.</param>
         ///<returns>The transformation matrix list.</returns>
-
         private List<Transform> _transforms;
         #endregion Property
         ///<summary>
@@ -61,10 +55,10 @@ namespace Block
                 _transforms[index] = value.XForm;
             }
         }
-
-        public SLBlock(double Size = 1)
+        public SLBlockPair(double Size)
         {
             this.Size = Size;
+            this.XForm = Rhino.Geometry.Transform.Identity;
             _transforms = new List<Transform>();
             var VoxelLoc = new List<Vector3d>{
                 new Vector3d(-Size * 3 / 2, -Size / 2, -Size / 2),
@@ -76,49 +70,102 @@ namespace Block
                 new Vector3d(Size * 3 / 2, Size / 2, -Size / 2),
                 new Vector3d(Size * 3 / 2, Size / 2, Size / 2)
             };
-            this.XForm = Rhino.Geometry.Transform.Identity;
-            _transforms.AddRange(VoxelLoc.Select(x => Rhino.Geometry.Transform.Translation(x)));
+            var Translation = VoxelLoc.Select(x => Rhino.Geometry.Transform.Translation(x)).ToList();
+            _transforms.AddRange(Translation.Select(x => new Transform(x)));
+            Translation = Translation.Select(x => Rhino.Geometry.Transform.Rotation(Math.PI, Vector3d.YAxis, Point3d.Origin) * x).ToList();
+            _transforms.AddRange(Translation);
         }
-        public SLBlock DuplicateSLBlock()
+        public SLBlockPair(SLBlock block)
         {
-            var NewSL = new SLBlock(this.Size);
+            this.Size = block.Size;
+            this.XForm = block.XForm;
+            this._transforms = new List<Transform>();
+            var VoxelLoc = new List<Vector3d>{
+                new Vector3d(-Size * 3 / 2, -Size / 2, -Size / 2),
+                new Vector3d(-Size * 3 / 2, -Size / 2, -Size*3 / 2),
+                new Vector3d(-Size / 2, -Size / 2, 3*-Size / 2),
+                new Vector3d(Size / 2, -Size / 2, -Size * 3 / 2),
+                new Vector3d(Size / 2, Size / 2, -Size *3 / 2),
+                new Vector3d(Size / 2, Size / 2,-Size / 2),
+                new Vector3d(Size * 3 / 2, Size / 2, -Size / 2),
+                new Vector3d(Size * 3 / 2, Size / 2, Size / 2)
+            };
+            var Translation = VoxelLoc.Select(x => Rhino.Geometry.Transform.Translation(x)).ToList();
+            _transforms.AddRange(Translation.Select(x => new Transform(x)));
+            Translation = Translation.Select(x => Rhino.Geometry.Transform.Rotation(Math.PI, Vector3d.YAxis, Point3d.Origin) * x).ToList();
+            _transforms.AddRange(Translation);
+        }
+
+        public SLBlockPair DuplicateSLBlockPair()
+        {
+            var NewSL = new SLBlockPair(this.Size);
             NewSL.XForm = this.XForm;
             return NewSL;
         }
-
-
+        public List<SLBlock> DuplicateSLBlocks()
+        {
+            var NewSLTop = new SLBlock(this.Size);
+            var NewSLBot = new SLBlock(this.Size);
+            
+            NewSLTop.Transform(this.XForm);
+            var Reverse = new Rhino.Geometry.Transform(XForm);
+            Reverse = Reverse * Rhino.Geometry.Transform.Rotation(Math.PI, Vector3d.YAxis, Point3d.Origin);
+            NewSLBot.Transform(Reverse);
+            return new List<SLBlock>(){NewSLTop, NewSLBot};
+        }
+        private List<Transform> GetTransforms(PairOption option = PairOption.Chain)
+        {
+            switch (option)
+            {
+                case PairOption.Chain:
+                    return this._transforms;
+                case PairOption.Top:
+                    return this._transforms.GetRange(8, 8);
+                case PairOption.Bottom:
+                    return this._transforms.GetRange(0, 8);
+            }
+            return null;
+        }
         #region GetGeometry
-        public List<Box> GetSLBlock()
+        public List<Box> GetSLBLock(PairOption options = PairOption.Chain)
         {
             var Voxel = new Voxel(Size);
-            var Boxes = this._transforms.Select(t =>
-            {
-                var V = Voxel.DuplicateVoxel();
-                V.Transform(XForm);
-                V.Transform(t);
-                return V.VoxelDisplay();
-            }
-            );
-
-            return Boxes.ToList();
+            var Boxes = GetTransforms(options).Select(t =>
+                    {
+                        var V = Voxel.DuplicateVoxel();
+                        V.Transform(XForm);
+                        V.Transform(t);
+                        return V.VoxelDisplay();
+                    }
+                    ).ToList();
+            return Boxes;
         }
-        public List<Point3d> GetSLBlockGraphNode()
+        public List<Point3d> GetSLBlockGraphNode(PairOption options = PairOption.Chain)
         {
-
-            var Nodes = this._transforms.Select(t =>
+            return GetTransforms(options).Select(t =>
             {
                 var Pt = Point3d.Origin;
                 Pt.Transform(t);
                 Pt.Transform(XForm);
                 return Pt;
-            });
-            return Nodes.ToList();
+            }).ToList();
         }
-        public List<Curve> GetSLBlockGraphEdge()
+        public List<Curve> GetSLBlockGraphEdge(PairOption option = PairOption.Chain)
         {
-            var Nodes = this.GetSLBlockGraphNode();
-            var PolyCrv = new PolylineCurve(Nodes);
-            return PolyCrv.DuplicateSegments().ToList();
+            if (option == PairOption.Chain)
+            {
+                var NodesBot = this.GetSLBlockGraphNode(PairOption.Bottom);
+                var NodesTop = this.GetSLBlockGraphNode(PairOption.Top);
+                var Edge = new PolylineCurve(NodesBot).DuplicateSegments().ToList();
+                Edge.AddRange(new PolylineCurve(NodesTop).DuplicateSegments());
+                return Edge;
+
+            }
+            else
+            {
+                var Nodes = this.GetSLBlockGraphNode(option);
+                return new PolylineCurve(Nodes).DuplicateSegments().ToList();
+            }
         }
         #endregion GetGeometry
 
@@ -126,31 +173,27 @@ namespace Block
         {
             var Location = Point3d.Origin;
             Location.Transform(this.XForm);
-            return $"SLBlock \n Location : {Location.ToString()}, Size : {Size}";
+            return $"SLBlockPair \n Location : {Location.ToString()}, Size : {Size}";
         }
-        public override string TypeName => "SLBlock";
-        public override IGH_GeometricGoo DuplicateGeometry()
-        {
-            return this.DuplicateSLBlock();
-        }
+
+        public override string TypeName => "SLBlockPair";
+        public override string TypeDescription => "A pair of SLBlocks with optional bottom/top/chain configuration.";
+
         public override BoundingBox Boundingbox
         {
             get
             {
-                var boxes = this.GetSLBlock();
                 BoundingBox box = BoundingBox.Empty;
-                foreach (var b in boxes)
+                foreach (var b in this.GetSLBLock())
                     box.Union(b.BoundingBox);
                 return box;
             }
         }
 
         public BoundingBox ClippingBox => this.Boundingbox;
-        public override string TypeDescription => this.ToString();
-
         public override BoundingBox GetBoundingBox(Transform xform)
         {
-            var boxes = this.GetSLBlock();
+            var boxes = this.GetSLBLock();
             BoundingBox box = BoundingBox.Empty;
             foreach (var b in boxes)
             {
@@ -160,18 +203,25 @@ namespace Block
             }
             return box;
         }
+        public override IGH_GeometricGoo DuplicateGeometry()
+        {
+            return this.DuplicateSLBlockPair();
+        }
+
         public override IGH_GeometricGoo Transform(Transform xform)
         {
             this.XForm *= xform;
             return this;
         }
+
         public override IGH_GeometricGoo Morph(SpaceMorph xmorph)
         {
-            var nodes = this.GetSLBlockGraphNode().Select(xmorph.MorphPoint).ToList();
-            var newBlock = new SLBlock(this.Size);
-            newBlock._transforms = nodes.Select(p => Rhino.Geometry.Transform.Translation(new Vector3d(p))).ToList();
-            return newBlock;
+            var points = this.GetSLBlockGraphNode().Select(p => xmorph.MorphPoint(p)).ToList();
+            var copy = new SLBlockPair(this.Size);
+            copy._transforms = points.Select(p => Rhino.Geometry.Transform.Translation(new Vector3d(p))).ToList();
+            return copy;
         }
+
         public override bool CastFrom(object source)
         {
             if (source == null) return false;
@@ -179,12 +229,14 @@ namespace Block
             if (source is Point3d pt)
             {
                 this.XForm = Rhino.Geometry.Transform.Translation(new Vector3d(pt));
+                Value = (Point3d)source;
                 return true;
             }
 
             if (source is GH_Point ghPt)
             {
                 this.XForm = Rhino.Geometry.Transform.Translation(new Vector3d(ghPt.Value));
+                Value = (Point3d)source;
                 return true;
             }
 
@@ -192,12 +244,13 @@ namespace Block
             if (GH_Convert.ToPoint3d(source, ref point, GH_Conversion.Both))
             {
                 this.XForm = Rhino.Geometry.Transform.Translation(new Vector3d(point));
+                Value = (Point3d)source;
                 return true;
             }
 
             return false;
         }
-        #region Preview
+
         public void DrawViewportWires(GH_PreviewWireArgs args)
         {
             foreach (var Pt in this.GetSLBlockGraphNode())
@@ -218,15 +271,21 @@ namespace Block
 
         public void DrawViewportMeshes(GH_PreviewMeshArgs args)
         {
-            foreach (var b in this.GetSLBlock())
+            foreach (var b in this.GetSLBLock(PairOption.Top))
             {
                 var mesh = Mesh.CreateFromBox(b, 2, 2, 2);
-                var Display = new Rhino.Display.DisplayMaterial(Color.Green, 0.8);
-                args.Pipeline.DrawMeshShaded(mesh, Display);
-
+                var material = new Rhino.Display.DisplayMaterial(System.Drawing.Color.Yellow, 0.8);
+                args.Pipeline.DrawMeshShaded(mesh, material);
+            }
+            foreach (var b in this.GetSLBLock(PairOption.Bottom))
+            {
+                var mesh = Mesh.CreateFromBox(b, 2, 2, 2);
+                var material = new Rhino.Display.DisplayMaterial(System.Drawing.Color.Blue, 0.8);
+                args.Pipeline.DrawMeshShaded(mesh, material);
             }
         }
-        #endregion Preview
+
+        //Override
         public override object ScriptVariable()
         {
             return Value;
