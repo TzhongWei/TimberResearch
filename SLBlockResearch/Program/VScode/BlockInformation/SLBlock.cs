@@ -18,7 +18,7 @@ namespace Block
     ///<summary>
     /// Represents an SLBlock, a custom geometric object composed of transformed voxel blocks, supporting Grasshopper previews.
     ///</summary>
-    public class SLBlock : GH_GeometricGoo<Point3d>, IGH_PreviewData, IBlockBase
+    public class SLBlock : GH_GeometricGoo<Plane>, IBlockBase
     {
 
         #region Property
@@ -26,18 +26,27 @@ namespace Block
         /// Gets or sets the transformation matrix applied to the SLBlock.
         ///</summary>
         public Transform XForm { get; private set; }
-
         ///<summary>
         /// The size dimension of each voxel within the SLBlock.
         ///</summary>
-        public double Size { get;}
-        ///<summary>
-        /// The transformation for the voxel blocks
-        ///</summary>
-        ///<param name="_transforms">transformation forms the SL block.</param>
-        ///<returns>The transformation matrix list.</returns>
+        public double Size { get; }
 
-        private List<Transform> _transforms;
+        public BlockAttribute attribute { get; private set; }
+        private readonly List<Transform> _transforms;
+        private static List<Transform> SetUpTS(double Size)
+        {
+            var VoxelLoc = new List<Vector3d>{
+                new Vector3d(Size * 3 / 2, Size / 2, -Size / 2),
+                new Vector3d(Size * 3 / 2, Size / 2, -Size*3 / 2),
+                new Vector3d(Size / 2, Size / 2, 3*-Size / 2),
+                new Vector3d(-Size / 2, Size / 2, -Size * 3 / 2),
+                new Vector3d(-Size / 2, -Size / 2, -Size *3 / 2),
+                new Vector3d(-Size / 2, -Size / 2,-Size / 2),
+                new Vector3d(-Size * 3 / 2, -Size / 2, -Size / 2),
+                new Vector3d(-Size * 3 / 2, -Size / 2, Size / 2)
+            };
+            return VoxelLoc.Select(x => Rhino.Geometry.Transform.Translation(x)).ToList();
+        }
         #endregion Property
         ///<summary>
         /// Accesses a specific voxel within the SLBlock by its index.
@@ -65,43 +74,54 @@ namespace Block
         public SLBlock(double Size = 1)
         {
             this.Size = Size;
-            _transforms = new List<Transform>();
-            var VoxelLoc = new List<Vector3d>{
-                new Vector3d(-Size * 3 / 2, -Size / 2, -Size / 2),
-                new Vector3d(-Size * 3 / 2, -Size / 2, -Size*3 / 2),
-                new Vector3d(-Size / 2, -Size / 2, 3*-Size / 2),
-                new Vector3d(Size / 2, -Size / 2, -Size * 3 / 2),
-                new Vector3d(Size / 2, Size / 2, -Size *3 / 2),
-                new Vector3d(Size / 2, Size / 2,-Size / 2),
-                new Vector3d(Size * 3 / 2, Size / 2, -Size / 2),
-                new Vector3d(Size * 3 / 2, Size / 2, Size / 2)
-            };
             this.XForm = Rhino.Geometry.Transform.Identity;
-            _transforms.AddRange(VoxelLoc.Select(x => Rhino.Geometry.Transform.Translation(x)));
+            this.attribute = new BlockAttribute();
+            this._transforms = SetUpTS(Size);
+            this.SetIdenifier(this.TypeName);
+        }
+        public SLBlock(SLBlock block)
+        {
+            this.Size = block.Size;
+            this.XForm = block.XForm;
+            this.attribute = new BlockAttribute(block.attribute);
+            this._transforms = SetUpTS(Size);
+            this.SetIdenifier(block.attribute.Identifier);
         }
         public IBlockBase DuplicateBlock()
         {
-            var NewSL = new SLBlock(this.Size);
-            NewSL.XForm = this.XForm;
+            var NewSL = new SLBlock(this);
             return NewSL;
         }
-
+        public void SetIdenifier(string ID)
+        {
+            this.attribute.Identifier = ID;
+        }
+        public void SetColor(Color colour)
+        {
+            this.attribute.BlockColor = colour;
+        }
         #region GetGeometry
-        public List<Box> GetSLBlock()
+        public List<Box> GetBlocks()
         {
             var Voxel = new Voxel(Size);
             var Boxes = this._transforms.Select(t =>
             {
-                var V = (Voxel) Voxel.DuplicateBlock();
+                var V = (Voxel)Voxel.DuplicateBlock();
                 V.Transform(XForm);
                 V.Transform(t);
-                return V.VoxelDisplay();
+                return V.GetBlocks()[0];
             }
             );
 
             return Boxes.ToList();
         }
-        public List<Point3d> GetSLBlockGraphNode()
+        public Brep GetUnionBlock()
+        {
+            var B = Brep.CreateBooleanUnion(this.GetBlocks().Select(x => x.ToBrep()), 0.1)[0];
+            B.MergeCoplanarFaces(1);
+            return B;
+        }
+        public List<Point3d> GetBlockGraphNode()
         {
 
             var Nodes = this._transforms.Select(t =>
@@ -113,9 +133,9 @@ namespace Block
             });
             return Nodes.ToList();
         }
-        public List<Curve> GetSLBlockGraphEdge()
+        public List<Curve> GetBlockGraphEdge()
         {
-            var Nodes = this.GetSLBlockGraphNode();
+            var Nodes = this.GetBlockGraphNode();
             var PolyCrv = new PolylineCurve(Nodes);
             return PolyCrv.DuplicateSegments().ToList();
         }
@@ -130,13 +150,13 @@ namespace Block
         public override string TypeName => "SLBlock";
         public override IGH_GeometricGoo DuplicateGeometry()
         {
-            return (SLBlock) this.DuplicateBlock();
+            return (SLBlock)this.DuplicateBlock();
         }
         public override BoundingBox Boundingbox
         {
             get
             {
-                var boxes = this.GetSLBlock();
+                var boxes = this.GetBlocks();
                 BoundingBox box = BoundingBox.Empty;
                 foreach (var b in boxes)
                     box.Union(b.BoundingBox);
@@ -148,7 +168,7 @@ namespace Block
         public override string TypeDescription => this.ToString();
         public override BoundingBox GetBoundingBox(Transform xform)
         {
-            var boxes = this.GetSLBlock();
+            var boxes = this.GetBlocks();
             BoundingBox box = BoundingBox.Empty;
             foreach (var b in boxes)
             {
@@ -165,15 +185,23 @@ namespace Block
         }
         public override IGH_GeometricGoo Morph(SpaceMorph xmorph)
         {
-            var nodes = this.GetSLBlockGraphNode().Select(xmorph.MorphPoint).ToList();
+            var nodes = this.GetBlockGraphNode().Select(xmorph.MorphPoint).ToList();
             var newBlock = new SLBlock(this.Size);
-            newBlock._transforms = nodes.Select(p => Rhino.Geometry.Transform.Translation(new Vector3d(p))).ToList();
             return newBlock;
         }
         public override bool CastFrom(object source)
         {
             if (source == null) return false;
-
+            if(source is Plane PL)
+            {
+                this.XForm = Rhino.Geometry.Transform.PlaneToPlane(Plane.WorldXY, PL);
+                return true;
+            }
+            if(source is GH_Plane ghPL)
+            {
+                this.XForm = Rhino.Geometry.Transform.PlaneToPlane(Plane.WorldXY, ghPL.Value);
+                return true;
+            }
             if (source is Point3d pt)
             {
                 this.XForm = Rhino.Geometry.Transform.Translation(new Vector3d(pt));
@@ -192,13 +220,18 @@ namespace Block
                 this.XForm = Rhino.Geometry.Transform.Translation(new Vector3d(point));
                 return true;
             }
-
+            var plane = Plane.WorldXY;
+            if(GH_Convert.ToPlane(source, ref plane, GH_Conversion.Both))
+            {
+                this.XForm = Rhino.Geometry.Transform.PlaneToPlane(Plane.WorldXY, plane);
+                return true;
+            }
             return false;
         }
         #region Preview
         public void DrawViewportWires(GH_PreviewWireArgs args)
         {
-            foreach (var Pt in this.GetSLBlockGraphNode())
+            foreach (var Pt in this.GetBlockGraphNode())
                 args.Pipeline.DrawPoint(Pt, args.Color);
 
             var PL = Plane.WorldXY; PL.Transform(this.XForm);
@@ -208,37 +241,43 @@ namespace Block
             args.Pipeline.DrawArrow(new Line(PL.Origin, PL.Origin + PL.YAxis * 0.2 * Size), Color.Green);
             args.Pipeline.DrawArrow(new Line(PL.Origin, PL.Origin + PL.ZAxis * 0.2 * Size), Color.Yellow);
 
-            foreach (var Crv in this.GetSLBlockGraphEdge())
+            foreach (var Crv in this.GetBlockGraphEdge())
             {
                 args.Pipeline.DrawCurve(Crv, args.Color, 4);
             }
         }
         public void DrawViewportMeshes(GH_PreviewMeshArgs args)
         {
-            foreach (var b in this.GetSLBlock())
+            foreach (var b in this.GetBlocks())
             {
                 var mesh = Mesh.CreateFromBox(b, 2, 2, 2);
-                var Display = new Rhino.Display.DisplayMaterial(Color.Green, 0.8);
-                args.Pipeline.DrawMeshShaded(mesh, Display);
+                if (attribute.BlockColor == Color.Transparent)
+                {
+                    var Display = new Rhino.Display.DisplayMaterial(Color.Green, 0.8);
+                    args.Pipeline.DrawMeshShaded(mesh, Display);
+                }
+                else
+                {
+                    var Display = new Rhino.Display.DisplayMaterial(attribute.BlockColor, 0.8);
+                    args.Pipeline.DrawMeshShaded(mesh, Display);
+                }
 
             }
         }
         #endregion Preview
         public override object ScriptVariable()
-        {
-            return Value;
-        }
-        public override Point3d Value
+            => this;
+        public override Plane Value
         {
             get
             {
-                var Pt = Point3d.Origin;
+                var Pt = Plane.WorldXY;
                 Pt.Transform(XForm);
                 return Pt;
             }
             set
             {
-                this.XForm = Rhino.Geometry.Transform.Translation(new Vector3d(value));
+                this.XForm = Rhino.Geometry.Transform.PlaneToPlane(Plane.WorldXY, value);
             }
         }
         public override bool CastTo<TQ>(out TQ target)
@@ -253,12 +292,26 @@ namespace Block
             if (typeof(TQ).IsAssignableFrom(typeof(GH_Point)))
             {
                 Value.Transform(this.XForm);
-                target = (TQ)(object)new GH_Point(Value);
+                target = (TQ)(object)new GH_Point(Value.Origin);
                 return true;
             }
-
+            if(typeof(TQ).IsAssignableFrom(typeof(Plane)))
+            {
+                Value.Transform(this.XForm);
+                target = (TQ)(object)Value;
+                return true;
+            }
             target = default(TQ);
             return false;
         }
+        public override bool Equals(object obj)
+        {
+            if (obj is SLBlock other)
+            {
+                return this.XForm.Equals(other.XForm) && this.Size.Equals(other.Size) && this.attribute.Identifier == other.attribute.Identifier;
+            }
+            return false;
+        }
+        public override int GetHashCode() => base.GetHashCode();
     }
 }

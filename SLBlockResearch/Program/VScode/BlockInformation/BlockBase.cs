@@ -1,14 +1,20 @@
+using System;
 using System.Collections.Generic;
 using Rhino.Geometry;
+using Grasshopper.Kernel;
+using Grasshopper.Kernel.Types;
 
 namespace Block
 {
-    public interface IBlockBase
+    public interface IBlockBase:  IGH_GeometricGoo, IGH_PreviewData
     {
+        BlockAttribute attribute { get;}
         Transform XForm {get;}
+        double Size {get;}
         IBlockBase DuplicateBlock();
-        public List<Box> GetBlocks();
-        public List<Point> GetBlockGraphNode();
-        public List<Curve> GetBlockGraphEdge();
+        List<Box> GetBlocks();
+        List<Point3d> GetBlockGraphNode();
+        List<Curve> GetBlockGraphEdge();
+        Brep GetUnionBlock();
     }
 }
