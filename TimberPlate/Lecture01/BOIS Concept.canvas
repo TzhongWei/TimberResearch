@@ -97,11 +97,8 @@
 		{"id":"adab1ff52e8e6fca","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417223751.png","x":7511,"y":318,"width":400,"height":222},
 		{"id":"16fea425a356fdd5","type":"text","text":"**The insection direction**","x":7300,"y":318,"width":180,"height":60},
 		{"id":"e0cba675db2c17e0","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417224445.png","x":7280,"y":737,"width":654,"height":420},
-		{"id":"571fa59c9c11e6ba","type":"text","text":"Boundary Support by the two vertical boxes","x":7960,"y":800,"width":300,"height":80},
 		{"id":"095e8b7bd8259bdc","type":"text","text":"Deform like a rigid box","x":7960,"y":947,"width":250,"height":60},
-		{"id":"3c95366dae96674e","type":"text","text":"Failure of structure resulted by the failure of Connections","x":7960,"y":1070,"width":410,"height":87},
 		{"id":"146b6bd540e3e735","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225116.png","x":7268,"y":1200,"width":666,"height":360},
-		{"id":"e9b0782560f54100","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225212.png","x":7268,"y":1612,"width":1015,"height":488},
 		{"id":"e06e275f6e071df2","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225309.png","x":7268,"y":2160,"width":997,"height":500},
 		{"id":"ad0258303ae95863","type":"text","text":"**Topological interlocking?**","x":6480,"y":677,"width":250,"height":60,"color":"3"},
 		{"id":"df6a254c7c558407","type":"text","text":"Post-tension?","x":6480,"y":780,"width":250,"height":60,"color":"3"},
@@ -112,7 +109,10 @@
 		{"id":"10769653e08b1102","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225137.png","x":7970,"y":1200,"width":578,"height":360},
 		{"id":"9d7edf85f02a7b28","type":"text","text":"Changing the connection type can optimise the structural performance","x":8298,"y":1612,"width":250,"height":127},
 		{"id":"99feded1f1f5d0b8","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225452.png","x":8960,"y":-420,"width":2190,"height":1036},
-		{"id":"63d608674a49f214","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225822.png","x":8960,"y":780,"width":2183,"height":1780}
+		{"id":"63d608674a49f214","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225822.png","x":8960,"y":780,"width":2183,"height":1780},
+		{"id":"3c95366dae96674e","type":"text","text":"Failure of structure resulted by the failure of Connections","x":7960,"y":1070,"width":410,"height":87},
+		{"id":"e9b0782560f54100","type":"file","file":"TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225212.png","x":7268,"y":1612,"width":1015,"height":488},
+		{"id":"571fa59c9c11e6ba","type":"text","text":"Boundary Support by the two vertical boxes","x":7960,"y":800,"width":300,"height":80}
 	],
 	"edges":[
 		{"id":"4bc0977fed87552f","fromNode":"9dbbfd9a530a55a5","fromSide":"bottom","toNode":"99bf4e20c0302487","toSide":"top","fromEnd":"arrow"},
