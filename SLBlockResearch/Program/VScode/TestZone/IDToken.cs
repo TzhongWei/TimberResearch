@@ -24,8 +24,10 @@ namespace Grammar
                     var GetBlock = context.blocks.Where(b => b.attribute.Identifier == this.Identifier).First().DuplicateBlock();
                     GetBlock.Transform(context.PointerTS);
                     context.shapeInterpreter.blocklist.Add(GetBlock);
+                    return true;
                 }
-                return true;
+                else
+                    return false;
             }
         }
 }

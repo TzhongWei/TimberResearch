@@ -55,7 +55,7 @@ namespace Grammar
                     var SelectT = this.tokens.Where(t => t.Name == T).First();
                     var Content = shapeContext as IShapeContext;
                     SelectT.Action(ref Content, null);
-                    this.cmd = $"Run {T} \n";
+                    this.cmd += $"Run {T} \n";
                     this.shapeContext.PassToken.Add(Index, (T, SelectT));
                 }
                 else

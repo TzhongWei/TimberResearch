@@ -18,7 +18,12 @@ namespace Block
         public BlockList() 
         {
             XForm = Rhino.Geometry.Transform.Identity;
-         }
+        }
+        public BlockList(IEnumerable<T> values)
+        {
+            this.XForm = Rhino.Geometry.Transform.Identity;
+            this._blockList = values.ToList();
+        }
         public BlockList(BlockList<T> values)
         {
             this.XForm = values.XForm;
@@ -144,6 +149,21 @@ namespace Block
                 }
             }
             return SelectedBags;
+        }
+        public static explicit operator BlockList<T>(List<T> values) => new BlockList<T>(values);
+        public static explicit operator BlockList<T>(List<object> values)
+        {
+            var NewList = new BlockList<T>();
+            foreach(var item in values)
+            {
+                if(item is T)
+                {
+                    NewList.Add((T)item);
+                }
+                else
+                    throw new Exception($"item is not IBlockBase");
+            }
+            return NewList;
         }
     }
 }

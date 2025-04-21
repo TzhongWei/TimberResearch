@@ -37,14 +37,14 @@ namespace Block
         {
              var _T = new List<Transform>();
             var VoxelLoc = new List<Vector3d>{
-                new Vector3d(-Size * 3 / 2, -Size / 2, -Size / 2),
-                new Vector3d(-Size * 3 / 2, -Size / 2, -Size*3 / 2),
-                new Vector3d(-Size / 2, -Size / 2, 3*-Size / 2),
-                new Vector3d(Size / 2, -Size / 2, -Size * 3 / 2),
-                new Vector3d(Size / 2, Size / 2, -Size *3 / 2),
-                new Vector3d(Size / 2, Size / 2,-Size / 2),
                 new Vector3d(Size * 3 / 2, Size / 2, -Size / 2),
-                new Vector3d(Size * 3 / 2, Size / 2, Size / 2)
+                new Vector3d(Size * 3 / 2, Size / 2, -Size*3 / 2),
+                new Vector3d(Size / 2, Size / 2, 3*-Size / 2),
+                new Vector3d(-Size / 2, Size / 2, -Size * 3 / 2),
+                new Vector3d(-Size / 2, -Size / 2, -Size *3 / 2),
+                new Vector3d(-Size / 2, -Size / 2,-Size / 2),
+                new Vector3d(-Size * 3 / 2, -Size / 2, -Size / 2),
+                new Vector3d(-Size * 3 / 2, -Size / 2, Size / 2)
             };
             var Translation = VoxelLoc.Select(x => Rhino.Geometry.Transform.Translation(x)).ToList();
             _T.AddRange(Translation.Select(x => new Transform(x)));

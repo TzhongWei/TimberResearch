@@ -4,19 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "83b4ea36560de8af",
+        "id": "88be264cf2cf8809",
         "type": "tabs",
         "children": [
           {
-            "id": "3b0d954794732c58",
+            "id": "3fba34de391b5726",
             "type": "leaf",
             "state": {
-              "type": "image",
+              "type": "canvas",
               "state": {
-                "file": "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421093234.png"
+                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
+                "viewState": {
+                  "x": 10558.95331660134,
+                  "y": 2114.169259252208,
+                  "zoom": -0.9219556641578672
+                }
               },
-              "icon": "lucide-image",
-              "title": "Pasted image 20250421093234"
+              "icon": "lucide-layout-dashboard",
+              "title": "BOIS Concept"
             }
           }
         ]
@@ -167,22 +172,22 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3b0d954794732c58",
+  "active": "3fba34de391b5726",
   "lastOpenFiles": [
+    "SLBlockResearch/Theory/SLBlock Diagram.canvas",
     "TimberPlate/Lecture01/BOIS Concept.canvas",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421105432.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102521.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102208.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102159.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102157.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102042.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102013.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421101944.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421101921.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421101858.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421132810.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421132952.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421133727.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421133517.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421133456.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421133428.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421133350.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421133339.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421133137.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421133024.png",
     "TimberPlate/Lecture01/Note.md",
     "TimberPlate/ScreenShotAndPhoto",
-    "SLBlockResearch/Theory/SLBlock Diagram.canvas",
     "SLBlockResearch/Program/VScode/BlockInformation/SLBlock.cs",
     "SLBlockResearch/Program/VScode/BlockInformation/Voxel.cs",
     "SLBlockResearch/Program/VScode/BlockInformation",
