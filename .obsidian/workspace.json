@@ -11,17 +11,12 @@
             "id": "3b0d954794732c58",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "image",
               "state": {
-                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
-                "viewState": {
-                  "x": 10356.167918359275,
-                  "y": 2194.5142863572905,
-                  "zoom": -1.8341607594092122
-                }
+                "file": "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421093234.png"
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "BOIS Concept"
+              "icon": "lucide-image",
+              "title": "Pasted image 20250421093234"
             }
           }
         ]
@@ -174,18 +169,17 @@
   },
   "active": "3b0d954794732c58",
   "lastOpenFiles": [
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225822.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225801.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225452.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225309.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225212.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225137.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417225116.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417224445.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417224000.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417223842.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250417223751.png",
     "TimberPlate/Lecture01/BOIS Concept.canvas",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421105432.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102521.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102208.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102159.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102157.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102042.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421102013.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421101944.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421101921.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250421101858.png",
     "TimberPlate/Lecture01/Note.md",
     "TimberPlate/ScreenShotAndPhoto",
     "SLBlockResearch/Theory/SLBlock Diagram.canvas",

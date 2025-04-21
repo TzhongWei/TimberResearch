@@ -20,7 +20,7 @@ namespace Grammar
 
         public abstract bool Action(ref IShapeContext context, params object[] args);
 
-        public abstract bool Equals(IToken<IShapeContext> other);
+        public virtual bool Equals(IToken<IShapeContext> other) => other != null && other.Name == Name;
     }
     
 }
