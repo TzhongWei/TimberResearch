@@ -11,17 +11,12 @@
             "id": "3fba34de391b5726",
             "type": "leaf",
             "state": {
-              "type": "canvas",
+              "type": "image",
               "state": {
-                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
-                "viewState": {
-                  "x": 19784.888611481725,
-                  "y": 4564.55031972673,
-                  "zoom": -0.6933993045488993
-                }
+                "file": "TimberPlate/ScreenShotAndPhoto/Pasted image 20250423144528.png"
               },
-              "icon": "lucide-layout-dashboard",
-              "title": "BOIS Concept"
+              "icon": "lucide-image",
+              "title": "Pasted image 20250423144528"
             }
           }
         ]
@@ -172,21 +167,20 @@
       "obsidian-git:Open Git source control": false
     }
   },
-  "active": "3fba34de391b5726",
+  "active": "85e7e1f927296593",
   "lastOpenFiles": [
-    "Pasted image 20250422111357.png",
-    "Pasted image 20250422111253.png",
-    "Pasted image 20250422105618.png",
-    "Pasted image 20250422105540.png",
-    "Pasted image 20250422105241.png",
-    "Pasted image 20250422105154.png",
-    "Pasted image 20250422105021.png",
-    "Pasted image 20250422104829.png",
-    "Pasted image 20250422104741.png",
-    "Pasted image 20250422104722.png",
-    "Pasted image 20250422104704.png",
-    "SLBlockResearch/Theory/SLBlock Diagram.canvas",
     "TimberPlate/Lecture01/BOIS Concept.canvas",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151800.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151718.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151136.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151030.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151015.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424145816.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424144843.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424143908.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250423155554.png",
+    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250423155319.png",
+    "SLBlockResearch/Theory/SLBlock Diagram.canvas",
     "TimberPlate/Lecture01/Note.md",
     "TimberPlate/ScreenShotAndPhoto",
     "SLBlockResearch/Program/VScode/BlockInformation/SLBlock.cs",
