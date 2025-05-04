@@ -5,6 +5,7 @@ using Rhino.Geometry;
 using System.Text;
 using Block;
 using System.Net.Mime;
+using Graph;
 
 
 namespace Grammar
@@ -22,5 +23,13 @@ namespace Grammar
 
         public virtual bool Equals(IToken<IShapeContext> other) => other != null && other.Name == Name;
     }
-    
+    public interface IsTransformToken
+    {
+        
+    }
+    public interface IsIDToken
+    {
+        NodeBase TokenNode {get;}
+        bool SetSNode(ref IShapeContext context, SGraph sGraph, params object[] args);
+    }
 }

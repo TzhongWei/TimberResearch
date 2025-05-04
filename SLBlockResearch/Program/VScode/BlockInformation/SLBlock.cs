@@ -30,7 +30,7 @@ namespace Block
         /// The size dimension of each voxel within the SLBlock.
         ///</summary>
         public double Size { get; }
-
+        
         public BlockAttribute attribute { get; private set; }
         private readonly List<Transform> _transforms;
         private static List<Transform> SetUpTS(double Size)
@@ -82,7 +82,7 @@ namespace Block
         public SLBlock(SLBlock block)
         {
             this.Size = block.Size;
-            this.XForm = block.XForm;
+            this.XForm = block.XForm.Clone();
             this.attribute = new BlockAttribute(block.attribute);
             this._transforms = SetUpTS(Size);
             this.SetIdenifier(block.attribute.Identifier);
@@ -181,6 +181,11 @@ namespace Block
         public override IGH_GeometricGoo Transform(Transform xform)
         {
             this.XForm *= xform;
+            return this;
+        }
+        public IGH_GeometricGoo ApplyWorldTransform(Transform world)
+        {
+            XForm = world * XForm;
             return this;
         }
         public override IGH_GeometricGoo Morph(SpaceMorph xmorph)

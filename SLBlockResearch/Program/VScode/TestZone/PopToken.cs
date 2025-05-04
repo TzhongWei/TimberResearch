@@ -8,6 +8,7 @@ namespace Grammar
         public override bool Action(ref IShapeContext context, params object[] args)
         {
             context.PointerTS = context.StackTS.Pop();
+            context.PointerNode = context.StackNode.Pop();
             return true;
         }
         public PopToken(){}

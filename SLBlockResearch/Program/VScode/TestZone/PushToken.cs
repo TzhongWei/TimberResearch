@@ -8,6 +8,7 @@ namespace Grammar
         public override bool Action(ref IShapeContext context, params object[] args)
         {
             context.StackTS.Push(context.PointerTS);
+            context.StackNode.Push(context.PointerNode);
             return true;
         }
 

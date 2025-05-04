@@ -4,20 +4,30 @@ using System.Text;
 using System.Collections;
 using Rhino.Geometry;
 using Block;
+using Graph;
 using System.Security.Cryptography.X509Certificates;
+using Graph.Goo;
 
 namespace Grammar
 {
     public sealed class ShapeInterpreter
     {
-        public BlockList<IBlockBase> blocklist {get; private set;}
+        private BlockList<IBlockBase> _blocklist  = new BlockList<IBlockBase>();
+        /// <summary>
+        /// Readonly it will not modify the list
+        /// </summary>
+        /// <returns></returns>
+        public BlockList<IBlockBase> GetBlockList() => new BlockList<IBlockBase>(_blocklist);
         public ShapeContext shapeContext {get; private set;}
         public string cmd;
         public string Sentence;
         public HashSet<Token> tokens;
+        private SGraph ArrangeGraph;
+        public SGraphGoo GetGraph() => new SGraphGoo(this.ArrangeGraph);
         public ShapeInterpreter(params IBlockBase[] blocks)
         {
-            blocklist = new BlockList<IBlockBase>();
+            this._blocklist = new BlockList<IBlockBase>();
+            this.ArrangeGraph = new SGraph();
             this.shapeContext = new ShapeContext(this, blocks);
             cmd = "";
             tokens = new HashSet<Token>();
@@ -54,8 +64,16 @@ namespace Grammar
                 {
                     var SelectT = this.tokens.Where(t => t.Name == T).First();
                     var Content = shapeContext as IShapeContext;
-                    SelectT.Action(ref Content, null);
                     this.cmd += $"Run {T} \n";
+                    ///Adding Blocks
+                    if(SelectT is IsIDToken)
+                    {
+                        SelectT.Action(ref Content, this._blocklist);
+                        this.cmd += "Place block \n";
+                        (SelectT as IsIDToken).SetSNode(ref Content, this.ArrangeGraph);
+                    }
+                    else
+                        SelectT.Action(ref Content, null);
                     this.shapeContext.PassToken.Add(Index, (T, SelectT));
                 }
                 else

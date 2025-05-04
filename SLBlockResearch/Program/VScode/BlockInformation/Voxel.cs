@@ -52,12 +52,17 @@ namespace Block
         public Voxel(Voxel V) 
         {
             this.Size = V.Size;
-            this.XForm = V.XForm;
+            this.XForm = V.XForm.Clone();
             this.attribute = new BlockAttribute(this.attribute);
         }
         public override IGH_GeometricGoo Transform(Transform xform)
         {   
             this.XForm *= xform;
+            return this;
+        }
+        public IGH_GeometricGoo ApplyWorldTransform(Transform world)
+        {
+            XForm = world * XForm;
             return this;
         }
         public IBlockBase DuplicateBlock() => new Voxel(this);

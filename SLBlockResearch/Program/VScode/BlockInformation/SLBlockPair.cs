@@ -47,7 +47,7 @@ namespace Block
                 new Vector3d(-Size * 3 / 2, -Size / 2, Size / 2)
             };
             var Translation = VoxelLoc.Select(x => Rhino.Geometry.Transform.Translation(x)).ToList();
-            _T.AddRange(Translation.Select(x => new Transform(x)));
+            _T.AddRange(Translation.Select(x => x.Clone()));
             Translation = Translation.Select(x => Rhino.Geometry.Transform.Rotation(Math.PI, Vector3d.YAxis, Point3d.Origin) * x).ToList();
             _T.AddRange(Translation);
             return _T;
@@ -86,7 +86,7 @@ namespace Block
         public SLBlockPair(SLBlockPair block)
         {
             this.Size = block.Size;
-            this.XForm = block.XForm;
+            this.XForm = block.XForm.Clone();
             this.attribute = new BlockAttribute(this.attribute);
             this._transforms = SetUpTS(Size);
             this.SetIdenifier(block.attribute.Identifier);
@@ -236,6 +236,11 @@ namespace Block
             var points = this.GetBlockGraphNode().Select(p => xmorph.MorphPoint(p)).ToList();
             var copy = new SLBlockPair(this.Size);
             return copy;
+        }
+                public IGH_GeometricGoo ApplyWorldTransform(Transform world)
+        {
+            XForm = world * XForm;
+            return this;
         }
         public override bool CastFrom(object source)
         {

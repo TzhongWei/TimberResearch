@@ -42,6 +42,7 @@ namespace Block
         /// </summary>
         /// <param name="item"></param>
         public void Add(T item) => _blockList.Add((T) item.DuplicateBlock());
+        public void AddRange(IEnumerable<T> items) => _blockList.AddRange(items);
         public void Clear() => _blockList.Clear();
         public bool Contains(T item) => _blockList.Contains(item);
         public void CopyTo(T[] array, int arrayIndex) => _blockList.CopyTo(array, arrayIndex);
@@ -165,5 +166,11 @@ namespace Block
             }
             return NewList;
         }
+        public static implicit operator List<T>(BlockList<T> values) 
+        {
+            var ListT = values._blockList.Select(x => (T)x.ApplyWorldTransform(values.XForm)).ToList();
+            return ListT;
+        }
+    
     }
 }
