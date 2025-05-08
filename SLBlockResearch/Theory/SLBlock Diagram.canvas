@@ -1,1 +1,37 @@
-{}
+{
+	"nodes":[
+		{"id":"4599064d710a8d9f","type":"group","x":-800,"y":320,"width":633,"height":94,"label":"Nodes are non-extendable Node"},
+		{"id":"9c9f0d0a293fadb8","type":"group","x":-920,"y":580,"width":349,"height":94,"label":"Atomic Nodes"},
+		{"id":"a6c2612b0ae4f9ef","type":"text","text":"Stability Evaluation\n---\n---\nThe **stability | integrity** of assembly system is accessed by\n\n**Global stability**\n$$STA(T) \\rightarrow \\text{How rigid or interlocked integrity of the whole system}$$\n---\n**Assembly strategy difficulty**\n-$$\\text{TotalCost}(T) = \\alpha \\cdot STA(T) + \\beta \\cdot STA(r(T))$$\nAnd therefore,\n$$STA(r(T)) = \\alpha \\sum_k STA\\left( \\bigcup_{i=1}^{k} r(SGNode_i) \\right) + \\beta \\sum_k STA(SGNode_k)\\quad \\text{where } r \\in [0, 1]$$\n$$r(SGNode_k) \\rightarrow \\text{The assembly processs of} \\  SGNode_k$$\nand \n$$\\bigcup_{i=1}^{k} r(SGNode_i)\\rightarrow \\text{- represents the cumulative assembly effort until stage k}$$\nand\n$$DOF(SGNode_k) \\rightarrow \\text{is the stability | integrity of the node} \\ SGNodes_k $$\n---\nFinal cost function:\n$$\\text{Total Cost(T) = DOF(T) + DOF(r(T))} $$","x":1000,"y":-413,"width":860,"height":860},
+		{"id":"fde6208ad8f950b3","type":"text","text":"distinction between **local DOF estimation** within a grouped subassembly (SGNode_h) and the **global assembly integration** when it’s inserted into the full system (T). Let’s formalise this idea for clarity:\n\n---\n\n**Structural Interpretation**\n\n  \n\nLet:\n\n  \n\n$$H = t_1 \\cdot g \\cdot t_2 \\quad \\Rightarrow \\quad SGNode_h = \\text{Place}(t_1) \\cdot \\text{Transform}(g) \\cdot \\text{Place}(t_2)$$\n\n  \n\nThis is a **partial assembly**, not yet part of the full system T.\n\n---\n\n**Key Concepts**\n\n  \n\n### **1.** \n\n### **DOF(H) before integration**\n\n  \n\nBefore SGNode_h is integrated into the full assembly T, it behaves like a **free subassembly** in space.\n\n- DOF(SGNode_h) measures the **internal mechanical rigidity** between$$ t_1$$ and$$ t_2$$.\n    \n- Initially, without any surrounding constraints, it starts with **6 DOFs** as a rigid body.\n    \n- Internal **block-block connections** may reduce that DOF (e.g., $$t_1 $$blocks translation in -X of $$t_2$$).\n    \n\n  \n\n This reflects the **intrinsic assembly difficulty** of the subnode.\n\n---\n\n### **2.** \n\n### **DOF Integration Events**\n\n  \n\nAs you integrate SGNode_h into the full system T, you evaluate:\n\n- **External constraints** from previously assembled parts,\n    \n- **Which DOFs are still free**, and\n    \n- **How many new constraints are introduced**.\n    \n\n  \n\nThis is captured by:\n\n  \n\n$$DOF(SGNode_h) + DOF\\left( \\bigcup_{0 \\leq k \\leq h} SGNode_k \\right)$$\n\n  \n\nWhere:\n\n- $$r(SGNode_h)$$ = assembly difficulty or number of available directions to insert\n    \n- $$⋃ SGNode_k $$= the system state up to that point\n    \n\n---\n\n### **3.** \n\n### **Final Cost Evaluation**\n\n  \n\nThe **total cost or complexity** of the full sequence is:\n\n  \n\n$$\\text{TotalCost}(T) = DOF(T) + \\sum_k \\left[ DOF(SGNode_k) + DOF(r(SGNode_k)) \\right]$$\n\n  \n\nWhere:\n\n- DOF(T) measures global integrity\n    \n- The summation estimates **incremental assembly effort**\n    \n\n---\n\n## ** Summary of Your Insight**\n\n  \n\nYou’re saying:\n\n- “Each SGNode_h has its own internal DOF before insertion, which reflects how well t_1, t_2, … are bonded.”\n    \n- “Once it’s being placed into T, we consider **its insertion strategy** and **how it interacts with the system so far**.”\n    \n- “So both its **internal rigidity** and **external insertion complexity** matter.”\n    \n\n  \n\n✔ **Correct!** You’re building a layered evaluation model:\n\n- Internal DOF (rigidity)\n    \n- Assembly DOF (strategy)\n    \n- Global DOF (system integrity)\n    ","x":2080,"y":-929,"width":1680,"height":1893},
+		{"id":"0bee4c4d9e13204a","type":"text","text":"- Their **placement** and **transformation**, organized in sequence,\n    \n- Grouped by **strategy nodes** (SGNode), where the grouping strategy affects the final integrity and assembly complexity.","x":60,"y":-413,"width":840,"height":120},
+		{"id":"9061d8283fec2485","type":"text","text":"\nEach group such as (Place(t) * Transform(g) * Place(t)) can be denoted as a Node Group.\nTherefore, $$ SGNode_k = \\text{A hierarchical Assembly group} $$ \n ","x":60,"y":-100,"width":780,"height":200},
+		{"id":"d4d9e4d70c7cf7d0","type":"text","text":"The transformation between Nodes are edges","x":-448,"y":200,"width":437,"height":65},
+		{"id":"4c374fd599487649","type":"text","text":"Assembly system?? T as a combination of Atomic units t (block)","x":-740,"y":-386,"width":583,"height":66},
+		{"id":"01595b17edd78c37","type":"text","text":"$$T = TS(x_0,t_0)\\cup TS(x_1,t_1)\\cup ... \\cup TS(x_i,t_i)= \\bigcup_{i}TS(x\n_i,t_i)$$\n$$TS(t_i) = \\text{Place}(t_i) \\cdot \\text{Transform}(x_i)$$","x":-737,"y":-240,"width":578,"height":160},
+		{"id":"6f044ab6a2e86d33","type":"text","text":"Graph is extandable Node","x":-490,"y":100,"width":289,"height":60},
+		{"id":"5f486a43bff12257","type":"text","text":"Graph structure // root","x":-740,"y":-15,"width":250,"height":60},
+		{"id":"2a1a0164221efabb","type":"text","text":"SGraph","x":-685,"y":100,"width":141,"height":60},
+		{"id":"ef35c0a4b844252f","type":"text","text":"SGNode","x":-788,"y":340,"width":133,"height":52},
+		{"id":"5a26c0f22728895c","type":"text","text":"SNode","x":-591,"y":340,"width":133,"height":54},
+		{"id":"0e060483c42f60b6","type":"text","text":"....","x":-410,"y":340,"width":209,"height":55},
+		{"id":"dae1d1c25a6bba02","type":"text","text":"SNode","x":-721,"y":600,"width":131,"height":54},
+		{"id":"094d2c3a6d53d111","type":"text","text":"SNode","x":-920,"y":600,"width":132,"height":54},
+		{"id":"5f8f1027040746a7","type":"text","text":"It can be group into different hierarchical assembling methods","x":60,"y":-210,"width":538,"height":50},
+		{"id":"5c1404d343bff1e3","x":106,"y":153,"width":344,"height":167,"type":"text","text":"{\n\tlisp ->hierarchical structure\n}"}
+	],
+	"edges":[
+		{"id":"e26fa57bd9a71813","fromNode":"01595b17edd78c37","fromSide":"top","toNode":"4c374fd599487649","toSide":"bottom"},
+		{"id":"2f529edd0b964de3","fromNode":"0bee4c4d9e13204a","fromSide":"left","toNode":"4c374fd599487649","toSide":"right"},
+		{"id":"68514523acebdf22","fromNode":"01595b17edd78c37","fromSide":"right","toNode":"5f8f1027040746a7","toSide":"left"},
+		{"id":"c4eb726868b10c73","fromNode":"a6c2612b0ae4f9ef","fromSide":"left","toNode":"0bee4c4d9e13204a","toSide":"right"},
+		{"id":"84dc41a73fee1a81","fromNode":"5f486a43bff12257","fromSide":"bottom","toNode":"2a1a0164221efabb","toSide":"top"},
+		{"id":"f29782b6f316ccc5","fromNode":"6f044ab6a2e86d33","fromSide":"left","toNode":"2a1a0164221efabb","toSide":"right"},
+		{"id":"445a1ccf90ef1019","fromNode":"2a1a0164221efabb","fromSide":"bottom","toNode":"ef35c0a4b844252f","toSide":"top","label":"Transform(h)"},
+		{"id":"cf9029c1375341d3","fromNode":"2a1a0164221efabb","fromSide":"bottom","toNode":"5a26c0f22728895c","toSide":"top"},
+		{"id":"9b9984a2fbdacd4a","fromNode":"ef35c0a4b844252f","fromSide":"bottom","toNode":"094d2c3a6d53d111","toSide":"top","label":"Transform(g)"},
+		{"id":"c35002c8dad2259a","fromNode":"ef35c0a4b844252f","fromSide":"bottom","toNode":"dae1d1c25a6bba02","toSide":"top"},
+		{"id":"b569d4c296fe1a4b","fromNode":"a6c2612b0ae4f9ef","fromSide":"left","toNode":"9061d8283fec2485","toSide":"right"},
+		{"id":"03f6a5bd9d7ea6ed","fromNode":"fde6208ad8f950b3","fromSide":"left","toNode":"a6c2612b0ae4f9ef","toSide":"right"}
+	]
+}

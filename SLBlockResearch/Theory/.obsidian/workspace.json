@@ -1,27 +1,27 @@
 {
   "main": {
-    "id": "bcc8f2651cfa4f3c",
+    "id": "0c0e1f0ff96c3c51",
     "type": "split",
     "children": [
       {
-        "id": "88be264cf2cf8809",
+        "id": "b0f9b7540ee825d5",
         "type": "tabs",
         "children": [
           {
-            "id": "3fba34de391b5726",
+            "id": "88a82838caa2efcb",
             "type": "leaf",
             "state": {
               "type": "canvas",
               "state": {
-                "file": "TimberPlate/Lecture01/BOIS Concept.canvas",
+                "file": "SLBlock Diagram.canvas",
                 "viewState": {
-                  "x": 16030.507464139737,
-                  "y": 7612.215450788775,
-                  "zoom": -4
+                  "x": 1423.8103066490532,
+                  "y": 77.00239876662903,
+                  "zoom": 0.4410320204496388
                 }
               },
               "icon": "lucide-layout-dashboard",
-              "title": "BOIS Concept"
+              "title": "SLBlock Diagram"
             }
           }
         ]
@@ -30,15 +30,15 @@
     "direction": "vertical"
   },
   "left": {
-    "id": "1321c5a40d7cd72c",
+    "id": "972ad63fa971ef90",
     "type": "split",
     "children": [
       {
-        "id": "234bf9f414163a7f",
+        "id": "c3d4cbc8eb0b14a3",
         "type": "tabs",
         "children": [
           {
-            "id": "85e7e1f927296593",
+            "id": "5f0df3647608a3a7",
             "type": "leaf",
             "state": {
               "type": "file-explorer",
@@ -51,7 +51,7 @@
             }
           },
           {
-            "id": "b6241e408968f8c8",
+            "id": "43db2abee3dcc25c",
             "type": "leaf",
             "state": {
               "type": "search",
@@ -68,7 +68,7 @@
             }
           },
           {
-            "id": "5d43726f65d90c4e",
+            "id": "3b041166a91883e3",
             "type": "leaf",
             "state": {
               "type": "bookmarks",
@@ -84,20 +84,20 @@
     "width": 300
   },
   "right": {
-    "id": "900fce6e72045cfc",
+    "id": "a501ceed81e494e9",
     "type": "split",
     "children": [
       {
-        "id": "b797a1b1a478ce4b",
+        "id": "c2c3cfd51cb16595",
         "type": "tabs",
         "children": [
           {
-            "id": "c6273aa36d21a6cb",
+            "id": "edde7106f47b4785",
             "type": "leaf",
             "state": {
               "type": "backlink",
               "state": {
-                "file": "SLBlockResearch/Theory/SLBlock Diagram.canvas",
+                "file": "SLBlock Diagram.canvas",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -111,12 +111,12 @@
             }
           },
           {
-            "id": "8950b021734cc139",
+            "id": "ab93c9f3e9a7d1d8",
             "type": "leaf",
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "SLBlockResearch/Theory/SLBlock Diagram.canvas",
+                "file": "SLBlock Diagram.canvas",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
@@ -125,7 +125,7 @@
             }
           },
           {
-            "id": "d02df76bc50a61ef",
+            "id": "5394de5da3bbc04a",
             "type": "leaf",
             "state": {
               "type": "tag",
@@ -140,21 +140,21 @@
             }
           },
           {
-            "id": "05a5b923a92ef32f",
+            "id": "9ea381f897ce183e",
             "type": "leaf",
             "state": {
               "type": "outline",
               "state": {
+                "file": "SLBlock Diagram.canvas",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of SLBlock Diagram"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -168,39 +168,11 @@
       "canvas:Create new canvas": false,
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
-      "command-palette:Open command palette": false,
-      "obsidian-git:Open Git source control": false
+      "command-palette:Open command palette": false
     }
   },
-  "active": "3fba34de391b5726",
+  "active": "88a82838caa2efcb",
   "lastOpenFiles": [
-    "SLBlockResearch/Theory/Images",
-    "SLBlockResearch/Theory/Untitled",
-    "Pasted image 20250428161711.png",
-    "TimberPlate/Lecture01/Note.md",
-    "TimberPlate/Lecture01/BOIS Concept.canvas",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250423144528.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151800.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151718.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151136.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151030.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424151015.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424145816.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424144843.png",
-    "TimberPlate/ScreenShotAndPhoto/Pasted image 20250424143908.png",
-    "SLBlockResearch/Theory/SLBlock Diagram.canvas",
-    "TimberPlate/ScreenShotAndPhoto",
-    "SLBlockResearch/Program/VScode/BlockInformation/SLBlock.cs",
-    "SLBlockResearch/Program/VScode/BlockInformation/Voxel.cs",
-    "SLBlockResearch/Program/VScode/BlockInformation",
-    "SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/VScode.csproj.FileListAbsolute.txt",
-    "SLBlockResearch/Program/VScode/bin/Debug/net7.0-windows/VScode.pdb",
-    "SLBlockResearch/Program/VScode/obj/Debug/net7.0-windows/ref/VScode.dll",
-    "SLBlockResearch/Program/VScode/bin/Debug/net7.0-windows/VScode.dll",
-    "SLBlockResearch/Program/VScode/bin/Debug/net7.0-windows/VScode.runtimeconfig.json",
-    "SLBlockResearch/Theory/Untitled.md",
-    "Concept Network.md",
-    "Untitled.md",
-    "Welcome.md"
+    "Images"
   ]
 }
