@@ -1,7 +1,5 @@
 using System;
 using System.Linq;
-using System.Text;
-using Rhino.Geometry;
 using Block;
 using Graph;
 
@@ -10,6 +8,7 @@ namespace Grammar
         public sealed class IDToken : Token, IsIDToken
         {
             public NodeBase TokenNode {get; private set;}
+            public double StabilityCost { get; private set;}
             public override string Name {get;}
             public string Identifier {get;}
             public IDToken(string name, string identifier)
@@ -24,7 +23,7 @@ namespace Grammar
                 if(context.blocks.Select(x => x.attribute.Identifier).ToList().Contains(this.Identifier))
                 {
                     var GetBlock = context.blocks.Where(b => b.attribute.Identifier == this.Identifier).First().DuplicateBlock();
-                    GetBlock.Transform(context.PointerTS);
+                    GetBlock.ApplyWorldTransform(context.PointerTS);
                     (args.First() as BlockList<IBlockBase>).Add(GetBlock);
                     this.TokenNode = new SNode(GetBlock, context.GetNodeID());
 
@@ -41,6 +40,10 @@ namespace Grammar
                     sGraph.AddNode(this.TokenNode, context.PointerNode.ID);
                 context.PointerNode = this.TokenNode;
                 return true;
+            }
+            public void SetStabilityCost(ref IShapeContext context)
+            {
+                StabilityCost = 0;
             }
         }
 }

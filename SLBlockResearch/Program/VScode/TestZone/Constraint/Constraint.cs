@@ -4,24 +4,22 @@ using System;
 using Graph;
 using System.Collections;
 using Rhino.Geometry;
-using System.Drawing;
-using System.Linq.Expressions;
-using System.Windows.Forms.VisualStyles;
-using Rhino.Render;
 using Block;
 using Rhino.Collections;
+using System.Runtime.InteropServices;
+using System.Drawing;
 
 namespace ConstraintDOF
 {
     public enum DOFDirection
     {
-        Px,
-        Nx,
-        Py,
-        Ny,
+        Px, //=0
+        Nx, //=1
+        Py, //=2
+        Ny, //=...
         Pz,
         Nz,
-        Fix,
+        Fix, //label
     }
     public class Constraint
     {
@@ -68,6 +66,182 @@ namespace ConstraintDOF
             ConnectFaceAndDir = constraint.ConnectFaceAndDir.Select(x => x.Duplicate()).ToList();
             ConstraintMatrix = constraint.ConstraintMatrix.Select(x => x.Duplicate()).ToList();
         }
+        #region AssemblyAnimate
+        public static BlockList<IBlockBase> AssemblyDisplay(SGraph sGraph, double t, double PlaceScale = 4)
+        {
+            PlaceScale = PlaceScale <= 0 ? 4 : PlaceScale;
+            var outputlist = new BlockList<IBlockBase>();
+            if (t == 0) return outputlist;
+            if (t < 1)
+            {
+                var Blocks = sGraph.Nodes[0].GetBlocks();
+                var TransformVec = new Vector3d(0, 0, -PlaceScale * (1 - t));
+                outputlist.AddRange(Blocks.Select(x => (IBlockBase)x.ApplyWorldTransform(Rhino.Geometry.Transform.Translation(TransformVec))));
+            }
+            else if (0 < t && t <= sGraph.Children.Count)
+            {
+                int nextIdx = (int)Math.Ceiling(t) - 1;
+
+                // 1. add already-placed blocks
+                for (int i = 0; i <= nextIdx - 1; i++)
+                    outputlist.AddRange(sGraph.Children[i].GetBlocks());
+
+                // 2. compute motion for the next node
+                double movement = nextIdx + 1 - t;              // (0…1)
+                var targetNode = sGraph.Children[nextIdx];
+
+                // reference group = all blocks placed so far
+                var refGroup = new SGNode(1, sGraph.Children.Take(nextIdx).ToList());
+
+                Constraint.EvaluateDOF(refGroup, targetNode, out _, out var tarC);
+                if (tarC.ConstraintMatrix.Any())
+                {
+                    var dir = DOFUtil.GetDOFTransformVector(tarC.ConstraintMatrix[0], Rhino.Geometry.Transform.Identity)
+                             * PlaceScale * movement;
+
+                    outputlist.AddRange(
+                                sGraph.Children[nextIdx].Duplicate()
+                                .GetBlocks()
+                                .Select(x =>
+                                        {
+                                            var b = (IBlockBase)x.ApplyWorldTransform(Rhino.Geometry.Transform.Translation(dir));
+                                            b.attribute.BlockColor = Color.White;   // mutates inside projection
+                                            return b;
+                                        }));
+                }
+                else
+                {
+                    throw new Exception("The insertion error");
+                }
+            }
+            else
+            {
+                outputlist.AddRange(sGraph.Children.SelectMany(x => x.GetBlocks()));
+            }
+            return outputlist;
+        }
+        #endregion AssemblyAnimate
+
+        #region Evaluation Process
+        private static double StabilityEquationDefault(int DOFCount, int[] DOFUnits, int ComponentCount, params double[] weight)
+        {
+            int surfaceContact = DOFUnits.Sum() / 2;               // total contact units
+            if (ComponentCount <= 1) return 0;                     // single node = no interlocking
+            return (double)(DOFCount * ComponentCount ^ 2) / (surfaceContact);
+        }
+        public delegate double StabilityEquation(int DOFCount, int[] ConnectSurface, int ElementCount, params double[] Weights);
+        public static double EvaStability(HasSubNodes T, bool HasPlane, StabilityEquation StaEquation = null, params double[] Weights)
+        {
+            var Parent = T as NodeBase;
+            DOF planeDOF = DOF.Unset;
+
+            // Optional base-plane constraint
+            if (HasPlane)
+            {
+                var bbox = new BoundingBox();
+                foreach (var block in Parent.GetBlocks())
+                    bbox.Union(block.Boundingbox);
+
+                var baseFace = bbox.ToBrep().Faces[4];
+                var basePt = baseFace.PointAt(baseFace.Domain(0).Mid, baseFace.Domain(1).Mid);
+                planeDOF = DOF.CreateDOF(basePt, DOFDirection.Nz);
+            }
+
+            int nodeCount = 0;
+            int DOFCount = 0;
+            int[] DOFsDir = new int[] { 0, 0, 0, 0, 0, 0 }; //{+x, +y, +z, -x. -y, -z}
+
+            if (T is NodeBase parentNode)
+            {
+                DFSEvaluateStability(parentNode, planeDOF, ref DOFCount, ref DOFsDir, ref nodeCount);
+            }
+
+            return StaEquation == null ? StabilityEquationDefault(DOFCount, DOFsDir, nodeCount, Weights) : StaEquation(DOFCount, DOFsDir, nodeCount, Weights);
+        }
+
+        public static void DFSEvaluateStability(NodeBase current, DOF PlaneConstraint, ref int DOFCount,
+        ref int[] DOFsDir, ref int BlocksCount)
+        {
+            // Recursively traverse all subnodes, collecting constraints for leaf nodes only
+            if (!(current is HasSubNodes parent))
+                return;
+            for (int i = 0; i < parent.Children.Count; i++)
+            {
+                var child = parent.Children[i];
+                if (child is HasSubNodes)
+                {
+                    DFSEvaluateStability(child, PlaneConstraint, ref DOFCount, ref DOFsDir, ref BlocksCount);
+                }
+                else
+                {
+                    var reference = new List<NodeBase>();
+
+                    for (int j = 0; j < parent.Children.Count; j++)
+                        if (j != i) reference.Add(parent.Children[j]);
+
+                    if (reference.Count == 0)
+                    {
+                        DOFsDir = PlaneConstraint.IsSameDirection(DOF.Unset) ? new int[] { 1, 1, 1, 1, 1, 1 } :
+                        new int[] { 1, 1, 1, 1, 1, 0 };
+                        BlocksCount = 1;
+                        return;
+                    }
+
+                    var tempGroup = new SGNode(-1, reference);
+                    Constraint.EvaluateDOF(tempGroup, child, out _, out var childCon);
+
+                    var dofs = childCon.ConstraintMatrix
+                        .Where(x => x.DOFVector != DOFDirection.Fix &&
+                                    (PlaneConstraint.IsSameDirection(DOF.Unset) || x.DOFVector != PlaneConstraint.DOFVector)).ToList();
+
+                    if (dofs.Count() != 0)
+                    {
+                        foreach (var DofCon in dofs)
+                        {
+                            for (int j = 0; j < childCon.ConnectFaceAndDir.Count; j++)
+                            {
+                                var ChildConnect = childCon.ConnectFaceAndDir[j];
+
+                                if (DOFUtil.IsTestDirfriction(DofCon, ChildConnect))
+                                {
+                                    switch (ChildConnect.DOFVector)
+                                    {
+                                        case DOFDirection.Px: DOFsDir[0]++; break;
+                                        case DOFDirection.Py: DOFsDir[1]++; break;
+                                        case DOFDirection.Pz: DOFsDir[2]++; break;
+                                        case DOFDirection.Nx: DOFsDir[3]++; break;
+                                        case DOFDirection.Ny: DOFsDir[4]++; break;
+                                        case DOFDirection.Nz: DOFsDir[5]++; break;
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        for (int j = 0; j < childCon.ConnectFaceAndDir.Count; j++)
+                        {
+                            var ChildConnect = childCon.ConnectFaceAndDir[j];
+                            switch (ChildConnect.DOFVector)
+                            {
+                                case DOFDirection.Px: DOFsDir[0]++; break;
+                                case DOFDirection.Py: DOFsDir[1]++; break;
+                                case DOFDirection.Pz: DOFsDir[2]++; break;
+                                case DOFDirection.Nx: DOFsDir[3]++; break;
+                                case DOFDirection.Ny: DOFsDir[4]++; break;
+                                case DOFDirection.Nz: DOFsDir[5]++; break;
+
+                            }
+
+                        }
+                    }
+                    DOFCount += dofs.Count;
+                    BlocksCount++;
+                }
+            }
+        }
+        #endregion
         #region SetConstraint
         /// <summary>
         /// Evaluates the degrees of freedom (DOFs) between two individual blocks in a voxel-based system,
@@ -181,14 +355,11 @@ namespace ConstraintDOF
         {
             var Parent = Node as NodeBase;
             Parent.constraint = new Constraint();
-            foreach (var NodesDir in Parent.TestDirection())
-            {
-                Parent.constraint.ConnectFaceAndDir.AddRange(
-                    NodesDir.Value.Select(x => DOF.CreateDOF(NodesDir.Key + x * Parent.BlockSize / 2, x))
-                );
-            }
+
+            Parent.constraint._node = Parent;
             Parent.constraint.GetAllElementsConstraint(-1, out childrenNodes, out childrenConstraints);
         }
+
         /// <summary>
         /// Generate a constraint for the specified child node by evaluating its local interaction with sibling blocks,
         /// then combine with external constraints from the parent node.
@@ -233,7 +404,7 @@ namespace ConstraintDOF
                 double threshold = target.BlockSize / 2 + 0.1;
 
                 var relevantGlobalDOFs = this.ConnectFaceAndDir
-                    .Where(globalDOF => childNodes.Any(node => node.DistanceTo(globalDOF.GetAnchor()) < threshold))
+                    .Where(globalDOF => childNodes.Any(node => node.DistanceTo(DOFUtil.GetDOFTranformAnchor(globalDOF, this.XForm)) < threshold))
                     .ToList();
 
                 tarConstraint.ConnectFaceAndDir.AddRange(relevantGlobalDOFs);
@@ -408,6 +579,22 @@ namespace ConstraintDOF
             }
         }
         #endregion
+        public List<DOF> SameDirection(NodeBase Node1, NodeBase Node2)
+        {
+            var DOFList = new List<DOF>();
+            var Controid = (Node1.GetCentroid() + Node2.GetCentroid()) / 2;
+            foreach (var Const1 in Node1.constraint.ConstraintMatrix)
+            {
+                foreach (var Const2 in Node2.constraint.ConstraintMatrix)
+                {
+                    if (Const1.IsSameDirection(Const2))
+                    {
+                        DOFList.Add(DOF.CreateDOF(Controid, Const1.DOFVector));
+                    }
+                }
+            }
+            return DOFList;
+        }
         public List<BrepFace> GetConstraintFaces()
         {
             var FinalFaces = new List<BrepFace>();
@@ -439,7 +626,7 @@ namespace ConstraintDOF
 
             var DOFCon = this.ConnectFaceAndDir[Index];
             var RecInt = new Interval(-BSize / 2, BSize / 2);
-            var Boundary = new Rectangle3d(Plane.CreateFromNormal(DOFCon.GetAnchor(), DOFCon.GetVector3d()), RecInt, RecInt).ToPolyline().ToPolylineCurve();
+            var Boundary = new Rectangle3d(Plane.CreateFromNormal(DOFUtil.GetDOFTranformAnchor(DOFCon, this.XForm), DOFUtil.GetDOFTransformVector(DOFCon, this.XForm)), RecInt, RecInt).ToPolyline().ToPolylineCurve();
             var planarBreps = Brep.CreatePlanarBreps(Boundary, 0.1);
             if (planarBreps == null || planarBreps.Length == 0) throw new Exception("Connect Face miss some data or internal error");
             var Face = planarBreps.First().Faces[0];
@@ -449,15 +636,47 @@ namespace ConstraintDOF
         public Constraint Transform(Rhino.Geometry.Transform XForm)
         {
             this.XForm *= XForm;
-            foreach (var DOF in this.ConnectFaceAndDir)
-            {
-                DOF.XForm = this.XForm;
-            }
-            foreach (var ConstDOF in this.ConstraintMatrix)
-            {
-                ConstDOF.XForm = this.XForm;
-            }
             return this;
+        }
+        public static Constraint Union(params NodeBase[] nodes)
+        {
+            var Anchorconstr = Point3d.Origin;
+            var Con = new Constraint();
+
+            Con.ConnectFaceAndDir.AddRange(nodes.SelectMany(x => x.constraint.ConnectFaceAndDir));
+            HashSet<DOFDirection> dir = new HashSet<DOFDirection>();
+            foreach (var nodeConstr in nodes.SelectMany(x => x.constraint.ConstraintMatrix))
+            {
+                Anchorconstr += nodeConstr.Anchor / nodes.SelectMany(x => x.constraint.ConstraintMatrix).Count();
+                dir.Add(nodeConstr.DOFVector);
+            }
+            foreach (var D in dir)
+            {
+                Con.ConstraintMatrix.Add(DOF.CreateDOF(Anchorconstr, D));
+            }
+            Con._node = new SGNode(-1, nodes);
+            return Con;
+        }
+        public static Constraint Intersect(params NodeBase[] nodes)
+        {
+            var Anchorconstr = Point3d.Origin;
+            var Con = new Constraint();
+            Con._node = new SGNode(-1, nodes);
+            // Get all ConstraintMatrix DOFs from each node
+            var allDOFs = nodes.SelectMany(x => x.constraint.ConstraintMatrix).ToList();
+            if (allDOFs.Count == 0) return Con;
+
+            Anchorconstr = allDOFs.Select(x => x.Anchor).Aggregate((a, b) => a + b) / allDOFs.Count;
+
+            var commonDirs = nodes
+                .Select(x => new HashSet<DOFDirection>(x.constraint.ConstraintMatrix.Select(d => d.DOFVector)))
+                .Aggregate((h1, h2) => { h1.IntersectWith(h2); return h1; });
+
+            foreach (var D in commonDirs)
+            {
+                Con.ConstraintMatrix.Add(DOF.CreateDOF(Anchorconstr, D));
+            }
+            return Con;
         }
     }
 }

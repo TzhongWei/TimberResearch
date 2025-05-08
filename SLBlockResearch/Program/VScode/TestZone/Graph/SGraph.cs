@@ -12,11 +12,13 @@ namespace Graph
     {
         public Dictionary<int, NodeBase> Nodes { get; private set; }
         public List<NodeBase> Children => this.Nodes.Values.ToList();
+        public bool HasStructed {get; private set;}
         public SGraph()
         {
             this.ID = -1;
             Nodes = new Dictionary<int, NodeBase>();
             Edges = new List<SEdge>();
+            HasStructed = false;
         }
         public SGraph(SGraph sGraph)
         {
@@ -24,6 +26,7 @@ namespace Graph
             var Dup = sGraph.Duplicate() as SGraph;
             this.Nodes = Dup.Nodes;
             this.Edges = Dup.Edges;
+            this.HasStructed = sGraph.HasStructed;
         }
         public override NodeBase Duplicate()
         {
@@ -35,11 +38,13 @@ namespace Graph
             );
             NewThis.Edges = this.Edges.Select(x => x.Duplicate()).ToList();
             NewThis.XForm = this.XForm.Clone();
+            NewThis.HasStructed = this.HasStructed;
             return NewThis;
         }
         public SGraph AddNode(NodeBase Node)
         {
             this.Nodes.Add(Node.ID, Node);
+            if(!this.HasStructed) this.HasStructed = true;
             return this;
         }
         public SGraph GetSubNodes()
@@ -82,6 +87,7 @@ namespace Graph
             Parent.AddNextNode(Node, out var Edge);
             this.AddNode(Node);
             this.Edges.Add(Edge);
+            if(!this.HasStructed) this.HasStructed = true;
             return this;
         }
         public List<GeometryBase> BakeGraph()

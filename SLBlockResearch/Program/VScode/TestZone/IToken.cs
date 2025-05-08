@@ -1,10 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using Rhino.Geometry;
-using System.Text;
-using Block;
-using System.Net.Mime;
 using Graph;
 
 
@@ -30,6 +24,8 @@ namespace Grammar
     public interface IsIDToken
     {
         NodeBase TokenNode {get;}
+        double StabilityCost{get;}
         bool SetSNode(ref IShapeContext context, SGraph sGraph, params object[] args);
+        void SetStabilityCost(ref IShapeContext context);
     }
 }

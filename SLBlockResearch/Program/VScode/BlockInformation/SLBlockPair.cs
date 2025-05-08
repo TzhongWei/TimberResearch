@@ -35,7 +35,7 @@ namespace Block
         private readonly List<Transform> _transforms;
         private static List<Transform> SetUpTS(double Size)
         {
-             var _T = new List<Transform>();
+            var _T = new List<Transform>();
             var VoxelLoc = new List<Vector3d>{
                 new Vector3d(Size * 3 / 2, Size / 2, -Size / 2),
                 new Vector3d(Size * 3 / 2, Size / 2, -Size*3 / 2),
@@ -104,7 +104,7 @@ namespace Block
             var NewSL = new SLBlockPair(this);
             return NewSL;
         }
-        public BlockList<SLBlock> DuplicateSLBlocks(PairOption option = PairOption.Chain)
+        public BlockList<SLBlock> DuplicateBlocks(PairOption option = PairOption.Chain)
         {
             var NewSLTop = new SLBlock(this.Size);
             var NewSLBot = new SLBlock(this.Size);
@@ -237,7 +237,7 @@ namespace Block
             var copy = new SLBlockPair(this.Size);
             return copy;
         }
-                public IGH_GeometricGoo ApplyWorldTransform(Transform world)
+        public IGH_GeometricGoo ApplyWorldTransform(Transform world)
         {
             XForm = world * XForm;
             return this;
@@ -245,12 +245,12 @@ namespace Block
         public override bool CastFrom(object source)
         {
             if (source == null) return false;
-            if(source is Plane PL)
+            if (source is Plane PL)
             {
                 this.XForm = Rhino.Geometry.Transform.PlaneToPlane(Plane.WorldXY, PL);
                 return true;
             }
-            if(source is GH_Plane ghPL)
+            if (source is GH_Plane ghPL)
             {
                 this.XForm = Rhino.Geometry.Transform.PlaneToPlane(Plane.WorldXY, ghPL.Value);
                 return true;
@@ -274,7 +274,7 @@ namespace Block
                 return true;
             }
             var plane = Plane.WorldXY;
-            if(GH_Convert.ToPlane(source, ref plane, GH_Conversion.Both))
+            if (GH_Convert.ToPlane(source, ref plane, GH_Conversion.Both))
             {
                 this.XForm = Rhino.Geometry.Transform.PlaneToPlane(Plane.WorldXY, plane);
                 return true;
@@ -342,7 +342,7 @@ namespace Block
                 this.XForm = Rhino.Geometry.Transform.PlaneToPlane(Plane.WorldXY, value);
             }
         }
-             public override bool CastTo<TQ>(out TQ target)
+        public override bool CastTo<TQ>(out TQ target)
         {
             if (typeof(TQ).IsAssignableFrom(typeof(Point3d)))
             {
@@ -357,7 +357,7 @@ namespace Block
                 target = (TQ)(object)new GH_Point(Value.Origin);
                 return true;
             }
-            if(typeof(TQ).IsAssignableFrom(typeof(Plane)))
+            if (typeof(TQ).IsAssignableFrom(typeof(Plane)))
             {
                 Value.Transform(this.XForm);
                 target = (TQ)(object)Value;
@@ -370,7 +370,7 @@ namespace Block
         {
             if (obj is SLBlockPair other)
             {
-                return this.XForm.Equals(other.XForm) && this.Size.Equals(other.Size)&& this.attribute.Identifier == other.attribute.Identifier;
+                return this.XForm.Equals(other.XForm) && this.Size.Equals(other.Size) && this.attribute.Identifier == other.attribute.Identifier;
             }
             return false;
         }

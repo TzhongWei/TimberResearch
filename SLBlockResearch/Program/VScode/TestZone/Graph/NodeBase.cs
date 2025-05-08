@@ -19,6 +19,7 @@ namespace Graph
     {
         List<NodeBase> Children {get;}
         SGraphGoo DisplayNodeGraph {get;}
+        bool HasStructed{get;}
     }
     public interface IsSingleNode : INode
     {

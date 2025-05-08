@@ -16,6 +16,7 @@ namespace Graph
         /// </summary>
         public List<NodeBase> Children { get; private set; }
         public override bool IsValid => Children.Count != 0 && this.ID >= 0;
+        public bool HasStructed => false;
         private SGNode() : base()
         { }
         public SGNode(int ID, IEnumerable<NodeBase> Nodes) : this()

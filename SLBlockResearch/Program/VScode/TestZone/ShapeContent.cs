@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Rhino.Geometry;
 using Block;
 using Graph;
+using ConstraintDOF;
 
 namespace Grammar
 {

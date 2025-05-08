@@ -53,7 +53,7 @@ namespace Graph
             return Pt;
         }
         public override string ToString()
-         => $"SNode {ID} : Parent ID {ID}";
+         => $"SNode {ID} : Parent ID {this.Parent.ID}";
 
         public override Dictionary<Point3d, List<Vector3d>> TestDirection()
         {

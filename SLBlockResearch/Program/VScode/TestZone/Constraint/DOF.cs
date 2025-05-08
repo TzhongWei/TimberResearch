@@ -4,15 +4,63 @@ using System;
 using Rhino.Geometry;
 using System.CodeDom;
 using System.Collections;
+using Rhino.Input.Custom;
 
 namespace ConstraintDOF
 {
-    public class DOF
+    public static class DOFUtil
     {
-        public Transform XForm {get; set;} = Rhino.Geometry.Transform.Identity;
-        private Point3d Anchor = Point3d.Origin;
-        public DOFDirection DOFVector {get; private set;} = DOFDirection.Fix;
+        public static Point3d GetDOFTranformAnchor(DOF DOFSetting, Transform transform)
+        {
+            var TSAnchor = new Point3d(DOFSetting.Anchor);
+            TSAnchor.Transform(transform);
+            return TSAnchor;
+        }
+        public static Vector3d GetDOFTransformVector(DOF DOFSetting, Transform transform)
+        {
+            Vector3d vec3d;
+            switch (DOFSetting.DOFVector)
+            {
+                case DOFDirection.Px:
+                    vec3d = Vector3d.XAxis;
+                    break;
+                case DOFDirection.Nx:
+                    vec3d = -Vector3d.XAxis;
+                    break;
+                case DOFDirection.Py:
+                    vec3d = Vector3d.YAxis;
+                    break;
+                case DOFDirection.Ny:
+                    vec3d = -Vector3d.YAxis;
+                    break;
+                case DOFDirection.Pz:
+                    vec3d = Vector3d.ZAxis;
+                    break;
+                case DOFDirection.Nz:
+                    vec3d = -Vector3d.ZAxis;
+                    break;
+                case DOFDirection.Fix:
+                    vec3d = new Vector3d();
+                    break;
+                default:
+                    throw new NotImplementedException();
+            }
+            vec3d.Transform(transform);
+            return vec3d;
+        }
+        public static bool IsTestDirfriction(DOF refDOF, DOF TestDOF)
+        {
+            if(refDOF.IsSameDirection(TestDOF) || refDOF.IsSameDirection(DOF.CreateReverse(TestDOF)) || refDOF.IsFix || TestDOF.IsFix)
+                return false;
+            return true;
+        }
+    }
+    public readonly struct DOF
+    {
+        public Point3d Anchor { get; }
+        public DOFDirection DOFVector { get; }
         public bool IsFix => DOFVector == DOFDirection.Fix;
+        public static DOF Unset => new DOF(Point3d.Unset, DOFDirection.Fix);
         private DOF(Point3d Anchor, DOFDirection DOFVector)
         {
             this.DOFVector = DOFVector;
@@ -21,9 +69,11 @@ namespace ConstraintDOF
         public DOF Duplicate()
         {
             var NewDOF = new DOF(this.Anchor, this.DOFVector);
-            NewDOF.XForm = this.XForm.Clone();
             return NewDOF;
         }
+        public static DOF CreateDOF(Point3d Anchor, DOFDirection dOFDirection)
+            =>  new DOF(Anchor, dOFDirection);
+        
         public static DOF CreateDOF(Point3d Anchor, Vector3d Direction = new Vector3d())
         {
             if (Direction == Vector3d.XAxis)
@@ -65,50 +115,12 @@ namespace ConstraintDOF
                     throw new ArgumentException("Invalid DOFDirection value");
             }
         }
-        public DOF Transform(Rhino.Geometry.Transform XForm)
-        {
-            this.XForm *= XForm;
-            return this;
-        }
         public override string ToString()
-         => $"Degree of Freedon on {this.GetVector3d()}";
-        public Point3d GetAnchor()
-        {
-            var TAnchor = new Point3d(Anchor);
-            TAnchor.Transform(this.XForm);
-            return TAnchor;
-        }
-        public Vector3d GetVector3d()
-        {
-            Vector3d vec3d;
-            switch (this.DOFVector)
-            {
-                case DOFDirection.Px:
-                    vec3d = Vector3d.XAxis;
-                    break;
-                case DOFDirection.Nx:
-                    vec3d = -Vector3d.XAxis;
-                    break;
-                case DOFDirection.Py:
-                    vec3d = Vector3d.YAxis;
-                    break;
-                case DOFDirection.Ny:
-                    vec3d = -Vector3d.YAxis;
-                    break;
-                case DOFDirection.Pz:
-                    vec3d = Vector3d.ZAxis;
-                    break;
-                case DOFDirection.Nz:
-                    vec3d = -Vector3d.ZAxis;
-                    break;
-                case DOFDirection.Fix:
-                    vec3d = new Vector3d();
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-            vec3d.Transform(this.XForm);
-            return vec3d;
-        }
+         => $"Degree of Freedon on {this.DOFVector.ToString()}";
+        public override bool Equals(object obj) =>
+        obj is DOF other && this.Anchor == other.Anchor && this.DOFVector == other.DOFVector;
+        public bool IsSameDirection(DOF other) => this.DOFVector == other.DOFVector;
+        public override int GetHashCode() =>
+            this.Anchor.GetHashCode() + this.DOFVector.GetHashCode();
     }
 }

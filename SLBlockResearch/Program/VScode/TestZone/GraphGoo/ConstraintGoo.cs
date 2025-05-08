@@ -78,8 +78,8 @@ namespace ConstraintDOF.Goo
                 var ConDOFs = this._constraint.ConnectFaceAndDir;
                 foreach (var ConDOF in ConDOFs)
                 {
-                    var Anchor = ConDOF.GetAnchor();
-                    var Dir = ConDOF.GetVector3d();
+                    var Anchor = DOFUtil.GetDOFTranformAnchor(ConDOF, this.Value.XForm);
+                    var Dir = DOFUtil.GetDOFTransformVector(ConDOF, this.Value.XForm);
                     if (Dir != new Vector3d())
                     {
                         var Arrow = new Line(Anchor, Anchor + Dir * this._constraint.Node.BlockSize);
@@ -113,12 +113,12 @@ namespace ConstraintDOF.Goo
                 if (ConstDOFs.Count == 0) return;
                 if (this._constraint.IsFullyLocked)
                 {
-                    args.Pipeline.DrawPoint(ConstDOFs[0].GetAnchor(), Rhino.Display.PointStyle.X, (float)Size / 10, Color.DarkGray);
+                    args.Pipeline.DrawPoint(DOFUtil.GetDOFTranformAnchor(ConstDOFs[0], this.Value.XForm), Rhino.Display.PointStyle.X, (float)Size / 5, Color.DarkGray);
                 }
                 foreach (var ConstDof in ConstDOFs)
                 {
-                    var Anchor = ConstDof.GetAnchor();
-                    var Dir = ConstDof.GetVector3d();
+                    var Anchor =DOFUtil.GetDOFTranformAnchor(ConstDof, this.Value.XForm);
+                    var Dir = DOFUtil.GetDOFTransformVector( ConstDof, this.Value.XForm);
                     var Arrow = new Line(Anchor, Anchor + Dir * this._constraint.Node.BlockSize * 1.5);
                     switch (ConstDof.DOFVector)
                     {
@@ -157,8 +157,9 @@ namespace ConstraintDOF.Goo
                 (
                     x => Mesh.CreateFromPlane(
                     Plane.CreateFromNormal(
-                        x.GetAnchor(),
-                        x.GetVector3d()),
+                        DOFUtil.GetDOFTranformAnchor(x, this.Value.XForm),
+                        DOFUtil.GetDOFTransformVector(x, this.Value.XForm)
+                        ),
                         RecInt, RecInt, 2, 2)
                         );
                 foreach (var mesh in Meshesfaces)
